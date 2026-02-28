@@ -115,6 +115,7 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let totalQuestions = 0;
+        const sectionScores = [0, 0]; // Array to store score for each section
 
         // Function to start the quiz after choosing a section
         function startSection(sectionIndex) {
@@ -201,14 +202,30 @@
                 currentQuestionIndex++;
                 renderSection();
             } else {
-                showScore();
+                endSection();
             }
         }
 
-        // Display the score after completing the section
+        // End the section and show score for that section
+        function endSection() {
+            sectionScores[currentSection] = score;
+            showScore();
+            const backToMenuButton = document.createElement('button');
+            backToMenuButton.classList.add('menu-button');
+            backToMenuButton.textContent = 'Back to Main Menu';
+            backToMenuButton.onclick = showMainMenu;
+            document.getElementById('quiz-container').appendChild(backToMenuButton);
+        }
+
+        // Show the score for the current section
         function showScore() {
             const percentage = (score / totalQuestions) * 100;
-            document.getElementById('score-container').textContent = `Your score: ${percentage.toFixed(2)}%`;
+            const scoreDiv = document.getElementById('score-container');
+            scoreDiv.innerHTML = `
+                <p>Your score for this section: ${percentage.toFixed(2)}%</p>
+                <p>Easy Section Score: ${sectionScores[0]} / ${quizData[0].questions.length}</p>
+                <p>Hard Section Score: ${sectionScores[1]} / ${quizData[1].questions.length}</p>
+            `;
         }
 
         // Load questions from questions.json
@@ -227,6 +244,7 @@
         // Show the main menu
         function showMainMenu() {
             document.getElementById('menu-container').style.display = 'block'; // Show the menu
+            document.getElementById('score-container').innerHTML = ''; // Clear score display
         }
 
         // Start by loading questions
