@@ -2,46 +2,145 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Bridge Helper Test Quiz</title>
+<title>Bridge Helper - Fancy Quiz</title>
+<style>
+  body { font-family: Arial; max-width:700px; margin:40px auto; padding:20px; background:#f9f9f9; }
+  h1{text-align:center;}
+  .section-btn {margin:10px; padding:10px 20px; cursor:pointer; background:#007bff; color:white; border:none; border-radius:5px;}
+  .section-btn:hover {background:#0056b3;}
+  .question {margin-bottom:20px;}
+  .option {margin:5px 0; padding:10px; border:1px solid #ccc; border-radius:5px; cursor:pointer;}
+  .option:hover {background:#f0f0f0;}
+  .selected {background:#d0ebff; border-color:#007bff;}
+  .feedback {margin-top:10px; padding:10px; border-radius:5px;}
+  .correct {background:#d4edda; border-left:4px solid #28a745;}
+  .incorrect {background:#f8d7da; border-left:4px solid #dc3545;}
+  #nextBtn {margin-top:15px; padding:8px 16px; cursor:pointer; border:none; border-radius:5px; background:#28a745; color:white;}
+  #nextBtn:disabled {background:#ccc; cursor:default;}
+  .progress {height:10px; background:#e0e0e0; border-radius:5px; margin-bottom:20px; overflow:hidden;}
+  .progress-bar {height:100%; background:#007bff; width:0%;}
+</style>
 </head>
 <body>
-<h1>Bridge Helper Test Quiz ♠️</h1>
 
-<div id="quiz"></div>
-<button id="nextBtn" class="hidden">Next</button>
+<h1>🃏 Bridge Helper</h1>
+<div id="home">
+  <h2>Select a Section</h2>
+  <button class="section-btn" data-section="Basics">Basics</button>
+  <button class="section-btn" data-section="Bidding">Bidding</button>
+</div>
+
+<div id="quiz-container" class="hidden">
+  <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+  <div id="quiz"></div>
+  <button id="nextBtn" disabled>Next</button>
+</div>
+
+<div id="results" class="hidden">
+  <h2>Results</h2>
+  <p id="score"></p>
+  <button id="retryBtn">Retry Section</button>
+</div>
 
 <script>
-const questions = [
-  {question: "How many high card points is an Ace worth?", options: ["2","3","4","5"], correct: 2},
-  {question: "Partner opens 1NT. You hold ♠KQ74 ♥83 ♦A762 ♣KQ5. What do you bid?", options: ["Pass","2♣ (Stayman)","2NT","3NT"], correct: 1}
-];
+// Questions by section
+const questionBank = {
+  "Basics":[
+    {question:"How many HCP is an Ace worth?", options:["2","3","4","5"], correct:2},
+    {question:"How many HCP is a King worth?", options:["2","3","4","5"], correct:1}
+  ],
+  "Bidding":[
+    {question:"Partner opens 1NT. You hold ♠KQ74 ♥83 ♦A762 ♣KQ5. What do you bid?", options:["Pass","2♣ Stayman","2NT","3NT"], correct:1},
+    {question:"You hold ♠AQT7 ♥KQ8 ♦J53 ♣62. What is your opening bid?", options:["1♠","1NT","1♥","2♠"], correct:0}
+  ]
+};
 
-let current = 0;
+let currentSection = "";
+let questions = [];
+let currentIndex = 0;
+let selectedOption = null;
+let score = 0;
 
-function loadQuestion(){
-  const q = questions[current];
-  document.getElementById("quiz").innerHTML = `
-    <p>${q.question}</p>
-    ${q.options.map((opt,i)=>`<div><input type="radio" name="answer" value="${i}"> ${opt}</div>`).join("")}
-  `;
-  document.getElementById("nextBtn").classList.add("hidden");
-}
+const home = document.getElementById("home");
+const quizContainer = document.getElementById("quiz-container");
+const results = document.getElementById("results");
+const quizDiv = document.getElementById("quiz");
+const nextBtn = document.getElementById("nextBtn");
+const progressBar = document.getElementById("progress-bar");
+const scoreText = document.getElementById("score");
+const retryBtn = document.getElementById("retryBtn");
 
-document.addEventListener("click", function(e){
-  if(e.target.name==="answer"){
-    const selected = parseInt(e.target.value);
-    if(selected === questions[current].correct) alert("Correct!");
-    else alert("Incorrect!");
-    document.getElementById("nextBtn").classList.remove("hidden");
-  }
-  if(e.target.id==="nextBtn"){
-    current++;
-    if(current<questions.length) loadQuestion();
-    else document.getElementById("quiz").innerHTML="<h2>Finished!</h2>";
-  }
+// Section buttons
+document.querySelectorAll(".section-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    currentSection = btn.dataset.section;
+    startSection();
+  });
 });
 
-loadQuestion();
+// Retry button
+retryBtn.addEventListener("click",()=>startSection());
+
+function startSection(){
+  home.classList.add("hidden");
+  results.classList.add("hidden");
+  quizContainer.classList.remove("hidden");
+  questions = questionBank[currentSection];
+  currentIndex = 0;
+  score = 0;
+  loadQuestion();
+}
+
+function loadQuestion(){
+  const q = questions[currentIndex];
+  quizDiv.innerHTML = `<div class="question"><p>${q.question}</p>` +
+    q.options.map((opt,i)=>`<div class="option" data-index="${i}">${opt}</div>`).join("") + `</div>` +
+    `<div id="feedback" class="feedback hidden"></div>`;
+  selectedOption = null;
+  nextBtn.disabled = true;
+  updateProgress();
+  
+  document.querySelectorAll(".option").forEach(opt=>{
+    opt.addEventListener("click",()=>{
+      document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
+      opt.classList.add("selected");
+      selectedOption = parseInt(opt.dataset.index);
+      showFeedback();
+      nextBtn.disabled = false;
+    });
+  });
+}
+
+function showFeedback(){
+  const feedback = document.getElementById("feedback");
+  if(selectedOption === questions[currentIndex].correct){
+    feedback.innerText = "✅ Correct!";
+    feedback.className="feedback correct";
+    score++;
+  } else {
+    feedback.innerText = "❌ Incorrect!";
+    feedback.className="feedback incorrect";
+  }
+  feedback.classList.remove("hidden");
+}
+
+nextBtn.addEventListener("click",()=>{
+  currentIndex++;
+  if(currentIndex<questions.length) loadQuestion();
+  else showResults();
+});
+
+function showResults(){
+  quizContainer.classList.add("hidden");
+  results.classList.remove("hidden");
+  scoreText.innerText = `You scored ${score} / ${questions.length} in ${currentSection}`;
+}
+
+function updateProgress(){
+  const percent = ((currentIndex)/questions.length)*100;
+  progressBar.style.width = percent + "%";
+}
 </script>
+
 </body>
 </html>
