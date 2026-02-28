@@ -23,10 +23,10 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
         }
 
         h1 {
+            text-align: center;
             margin-bottom: 20px;
         }
 
@@ -40,7 +40,6 @@
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
-            width: 100%;
         }
 
         .category-btn:hover {
@@ -51,7 +50,6 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            align-items: center;
         }
 
         .question-container {
@@ -66,7 +64,6 @@
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s;
-            width: 100%;
         }
 
         .answer-btn.correct {
@@ -113,7 +110,6 @@
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            width: 100%;
         }
 
         .next-btn:disabled {
@@ -127,7 +123,9 @@
 <div class="container">
     <h1>Bridž - test</h1>
     <div id="menu" class="button-container">
-        <!-- Dynamically filled with buttons for each category -->
+        <button class="category-btn" style="background-color: #2196F3;" onclick="startCategory('easy')">Laka kategorija</button>
+        <button class="category-btn" style="background-color: #ff9800;" onclick="startCategory('medium')">Srednja kategorija</button>
+        <button class="category-btn" style="background-color: #f44336;" onclick="startCategory('hard')">Teška kategorija</button>
     </div>
 
     <div id="question-section" class="question-container">
@@ -142,47 +140,74 @@
 </div>
 
 <script>
-    let questions = {};  // Placeholder for questions data
-
-    // Fetch questions.json dynamically to generate category buttons and questions
-    fetch('questions.json')
-        .then(response => response.json())
-        .then(data => {
-            questions = data.categories; // Use the categories from the JSON
-            generateCategoryButtons(); // Generate buttons based on JSON
-        })
-        .catch(err => console.error("Error loading questions.json:", err));
+    const questions = {
+        easy: [
+            {
+                question: "Kako igraš ovu boju: KQJx Txx?",
+                answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
+                correctAnswer: 0,
+                hint: "Kreći sa najvišim kartama.",
+                explanation: "Treba da igraš K kao početnu kartu.",
+            },
+            {
+                question: "Kako igraš ovu boju: Axx Kxx?",
+                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
+                correctAnswer: 0,
+                hint: "Počni sa najvišim kartama.",
+                explanation: "Počni sa A, da proveriš distribuciju.",
+            },
+        ],
+        medium: [
+            {
+                question: "Kako bi trebalo da igraš ovu boju: Axx Kxx?",
+                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
+                correctAnswer: 0,
+                hint: "Počni sa visokim kartama.",
+                explanation: "Počni sa A da bi proverio distribuciju.",
+            },
+            {
+                question: "Kako bi trebalo da igraš ovu boju: Qx Kxx?",
+                answers: ["Odigraj Q", "Odigraj K", "Odigraj x", "Odigraj xx"],
+                correctAnswer: 1,
+                hint: "Počni sa K ako imaš kontrolu.",
+                explanation: "Počni sa K kako bi bio siguran u distribuciju.",
+            },
+        ],
+        hard: [
+            {
+                question: "Kako bi trebalo da igraš ovu boju: KQx T9x?",
+                answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
+                correctAnswer: 1,
+                hint: "Odigraj Q u sredini.",
+                explanation: "Q je najverovatnija karta koja će doneti dobitak.",
+            },
+            {
+                question: "Kako bi trebalo da igraš ovu boju: Axx Txx?",
+                answers: ["Odigraj A", "Odigraj T", "Odigraj x", "Odigraj xx"],
+                correctAnswer: 0,
+                hint: "Počni sa A kartom.",
+                explanation: "Počni sa A, kako bi proverio distribuciju.",
+            },
+        ],
+    };
 
     let currentCategory = '';
     let currentQuestionIndex = 0;
     let score = 0;
     let totalQuestions = 0;
 
-    // Dynamically generate buttons for each category in the main menu
-    function generateCategoryButtons() {
-        const menuContainer = document.getElementById('menu');
-        for (let category of questions) {
-            const categoryButton = document.createElement('button');
-            categoryButton.classList.add('category-btn');
-            categoryButton.style.backgroundColor = category.color;
-            categoryButton.textContent = category.name;
-            categoryButton.onclick = () => startCategory(category);
-            menuContainer.appendChild(categoryButton);
-        }
-    }
-
     function startCategory(category) {
         currentCategory = category;
         currentQuestionIndex = 0;
         score = 0;
-        totalQuestions = category.questions.length;
+        totalQuestions = questions[category].length;
         document.getElementById('menu').style.display = 'none';
         document.getElementById('question-section').style.display = 'block';
         showQuestion();
     }
 
     function showQuestion() {
-        const questionData = currentCategory.questions[currentQuestionIndex];
+        const questionData = questions[currentCategory][currentQuestionIndex];
         document.getElementById('question-title').textContent = `Pitanje ${currentQuestionIndex + 1}`;
         document.getElementById('question-text').textContent = questionData.question;
 
@@ -198,7 +223,7 @@
     }
 
     function checkAnswer(selectedIndex) {
-        const questionData = currentCategory.questions[currentQuestionIndex];
+        const questionData = questions[currentCategory][currentQuestionIndex];
         const correctIndex = questionData.correctAnswer;
 
         const buttons = document.querySelectorAll('.answer-btn');
@@ -222,20 +247,20 @@
     }
 
     function nextQuestion() {
-        if (currentQuestionIndex < currentCategory.questions.length - 1) {
+        if (currentQuestionIndex < questions[currentCategory].length - 1) {
             currentQuestionIndex++;
             showQuestion();
         } else {
             document.getElementById('question-section').style.display = 'none';
-            const sectionBtn = document.querySelector(`button[onclick="startCategory('${currentCategory.name}')"]`);
+            const sectionBtn = document.querySelector(`button[onclick="startCategory('${currentCategory}')"]`);
             const percentage = ((score / totalQuestions) * 100).toFixed(2);
-            sectionBtn.innerHTML = `${sectionBtn.innerHTML} <br> (${percentage}%)`; // Keep original name + percentage
+            sectionBtn.innerHTML = `Završeno (${percentage}%)`;
             document.getElementById('menu').style.display = 'block';
         }
     }
 
     function showHint() {
-        const questionData = currentCategory.questions[currentQuestionIndex];
+        const questionData = questions[currentCategory][currentQuestionIndex];
         alert(questionData.hint);
     }
 </script>
