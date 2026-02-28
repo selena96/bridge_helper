@@ -31,7 +31,7 @@
       "correct": 4,
       "explanation": "Nakon što odnesemo štih sa A, pa K, pa Q (ne nužno u tom redosledu), ostaće nam još J da odnese četvrti štih.",
       "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
-    }
+    },
     {
       "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo prelaza.",
       "hand": {
