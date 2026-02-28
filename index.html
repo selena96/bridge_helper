@@ -40,6 +40,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
+            width: 100%;
         }
 
         .category-btn:hover {
@@ -126,9 +127,7 @@
 <div class="container">
     <h1>Bridž - test</h1>
     <div id="menu" class="button-container">
-        <button class="category-btn" style="background-color: #2196F3;" onclick="startCategory('easy')">Laka kategorija</button>
-        <button class="category-btn" style="background-color: #ff9800;" onclick="startCategory('medium')">Srednja kategorija</button>
-        <button class="category-btn" style="background-color: #f44336;" onclick="startCategory('hard')">Teška kategorija</button>
+        <!-- Dynamically filled with buttons for each category -->
     </div>
 
     <div id="question-section" class="question-container">
@@ -143,61 +142,43 @@
 </div>
 
 <script>
-    const questions = {
-        easy: [
-            {
-                question: "Kako igraš ovu boju: KQJx Txx?",
-                answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
-                correctAnswer: 0,
-                hint: "Kreći sa najvišim kartama.",
-                explanation: "Treba da igraš K kao početnu kartu.",
-            },
-            {
-                question: "Kako igraš ovu boju: Axx Kxx?",
-                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa najvišim kartama.",
-                explanation: "Počni sa A, da proveriš distribuciju.",
-            },
-        ],
-        medium: [
-            {
-                question: "Kako bi trebalo da igraš ovu boju: Axx Kxx?",
-                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa visokim kartama.",
-                explanation: "Počni sa A da bi proverio distribuciju.",
-            },
-            {
-                question: "Kako bi trebalo da igraš ovu boju: Qx Kxx?",
-                answers: ["Odigraj Q", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 1,
-                hint: "Počni sa K ako imaš kontrolu.",
-                explanation: "Počni sa K kako bi bio siguran u distribuciju.",
-            },
-        ],
-        hard: [
-            {
-                question: "Kako bi trebalo da igraš ovu boju: KQx T9x?",
-                answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
-                correctAnswer: 1,
-                hint: "Odigraj Q u sredini.",
-                explanation: "Q je najverovatnija karta koja će doneti dobitak.",
-            },
-            {
-                question: "Kako bi trebalo da igraš ovu boju: Axx Txx?",
-                answers: ["Odigraj A", "Odigraj T", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa A kartom.",
-                explanation: "Počni sa A, kako bi proverio distribuciju.",
-            },
-        ],
-    };
+    let questions = {};  // Placeholder for questions data
+
+    // Fetch questions.json dynamically to generate category buttons and questions
+    fetch('questions.json')
+        .then(response => response.json())
+        .then(data => {
+            questions = data;
+            generateCategoryButtons(); // Generate buttons based on JSON
+        })
+        .catch(err => console.error("Error loading questions.json:", err));
 
     let currentCategory = '';
     let currentQuestionIndex = 0;
     let score = 0;
     let totalQuestions = 0;
+
+    // Dynamically generate buttons for each category in the main menu
+    function generateCategoryButtons() {
+        const menuContainer = document.getElementById('menu');
+        for (let category in questions) {
+            const categoryButton = document.createElement('button');
+            categoryButton.classList.add('category-btn');
+            categoryButton.style.backgroundColor = getCategoryColor(category);
+            categoryButton.textContent = category.charAt(0).toUpperCase() + category.slice(1) + ' kategorija';
+            categoryButton.onclick = () => startCategory(category);
+            menuContainer.appendChild(categoryButton);
+        }
+    }
+
+    function getCategoryColor(category) {
+        switch (category) {
+            case 'easy': return '#2196F3'; // Light blue
+            case 'medium': return '#ff9800'; // Orange
+            case 'hard': return '#f44336'; // Red
+            default: return '#607d8b'; // Default grey
+        }
+    }
 
     function startCategory(category) {
         currentCategory = category;
