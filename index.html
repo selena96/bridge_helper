@@ -264,6 +264,7 @@
     let currentSection = "";
     let questions = [];
     let currentIndex = 0;
+    let selectedOption = null;
     let score = 0;
 
     const home = document.getElementById("home");
@@ -367,11 +368,12 @@
       explanationDiv.innerText = q.explanation || "";
 
       // Mark answer as correct or incorrect
+      const options = document.querySelectorAll(".option");
       if (selectedOption === q.correct) {
-        document.querySelectorAll(".option")[selectedOption].classList.add('correct');
+        options[selectedOption].classList.add('correct');
         score++;
       } else {
-        document.querySelectorAll(".option")[selectedOption].classList.add('incorrect');
+        options[selectedOption].classList.add('incorrect');
       }
     }
 
