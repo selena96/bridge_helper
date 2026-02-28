@@ -11,11 +11,14 @@
             padding: 0;
             background-color: #f0f0f0;
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .container {
             width: 90%;
             max-width: 600px;
-            margin: 20px auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -35,6 +38,9 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
         }
         .category-button:hover {
             opacity: 0.9;
@@ -55,6 +61,8 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
         }
         .answer-button:hover {
             opacity: 0.8;
@@ -92,6 +100,10 @@
             text-align: center;
             font-size: 20px;
             margin-top: 20px;
+        }
+        .category-button .score-text {
+            font-size: 14px;
+            color: #777;
         }
     </style>
 </head>
@@ -215,6 +227,20 @@
         function goToMainMenu() {
             document.querySelector('.main-menu').style.display = 'block';
             document.querySelector('#score').style.display = 'none';
+
+            // Update category buttons with scores
+            updateCategoryButton('easy');
+            updateCategoryButton('medium');
+            updateCategoryButton('hard');
+        }
+
+        // Update category buttons with score next to them
+        function updateCategoryButton(category) {
+            const button = document.querySelector(`.category-button.${category}`);
+            if (score > 0 && questions[category]) {
+                button.innerHTML = `${category.charAt(0).toUpperCase() + category.slice(1)}`;
+                button.innerHTML += `<div class="score-text">${score} / ${questions[category].length}</div>`;
+            }
         }
     </script>
 </body>
