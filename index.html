@@ -1,258 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bridge Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bridž - Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
 
-        .section-button {
-            padding: 15px;
-            margin: 10px;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-            font-size: 18px;
-        }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-        .easy {
-            background-color: #4CAF50;
-        }
+    h1, h2 {
+      margin-bottom: 20px;
+    }
 
-        .difficult {
-            background-color: #f44336;
-        }
+    button {
+      margin: 10px 0;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        .question-container {
-            margin: 20px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+    button:disabled {
+      background-color: #ccc;
+    }
 
-        .answer-button {
-            display: block;
-            padding: 10px;
-            margin: 10px 0;
-            width: 100%;
-            cursor: pointer;
-            border: 2px solid #ddd;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+    button:hover {
+      background-color: #0056b3;
+    }
 
-        .answer-button:hover {
-            background-color: #ddd;
-        }
+    #category-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-        .hint {
-            font-size: 14px;
-            color: #888;
-            text-decoration: underline;
-            cursor: pointer;
-        }
+    .category-btn {
+      padding: 15px;
+      background-color: #28a745;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        .correct {
-            background-color: #4CAF50;
-        }
+    .category-btn.easy {
+      background-color: #28a745;
+    }
 
-        .incorrect {
-            background-color: #f44336;
-        }
+    .category-btn.medium {
+      background-color: #ffc107;
+    }
 
-        .score-popup {
-            display: none;
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-        }
+    .category-btn.hard {
+      background-color: #dc3545;
+    }
 
-        .score-popup button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    #answer-container button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+    }
 
-        .score-popup button:hover {
-            background-color: #45a049;
-        }
+    #answer-container button.correct {
+      background-color: #28a745;
+    }
 
-        .hidden {
-            display: none;
-        }
+    #answer-container button.incorrect {
+      background-color: #dc3545;
+    }
 
-        @media (max-width: 600px) {
-            .section-button {
-                font-size: 16px;
-            }
-            .answer-button {
-                font-size: 14px;
-            }
-        }
-    </style>
+    #explanation {
+      margin-top: 20px;
+    }
+
+    #quiz-section, #score-section {
+      display: none;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Bridž - Test</h1>
+    <h2>Izaberi kategoriju</h2>
+    
+    <!-- Categories will be loaded dynamically from JSON -->
+    <div id="category-container"></div>
 
-<header>
-    <h1>Bridge Quiz</h1>
-</header>
-
-<div id="main-menu">
-    <div id="section-1" class="section-button easy" onclick="startQuiz(1)">
-        Section 1 (Easy)
+    <!-- Quiz section -->
+    <div id="quiz-section" style="display: none;">
+      <div id="question-container">
+        <p id="question-text"></p>
+        <button id="hint-btn">Hint</button>
+        
+        <div id="answer-container"></div>
+        
+        <div id="explanation" style="display: none;"></div>
+        
+        <button id="next-btn" style="display: none;">Next</button>
+      </div>
     </div>
-    <div id="section-2" class="section-button difficult" onclick="startQuiz(2)">
-        Section 2 (Difficult)
+    
+    <!-- Final score -->
+    <div id="score-section" style="display: none;">
+      <p>Your Score: <span id="final-score"></span></p>
+      <button id="go-to-main-menu">Go to Main Menu</button>
     </div>
-    <!-- More sections can be added here -->
-</div>
-
-<div id="quiz-container" class="hidden">
-    <div id="question-container" class="question-container">
-        <!-- Question content will be inserted here -->
-    </div>
-    <div id="hint-container" class="hint"></div>
-    <div id="next-button-container">
-        <button onclick="nextQuestion()">Next Question</button>
-    </div>
-</div>
-
-<div id="score-popup" class="score-popup">
-    <h2>Your Score: <span id="score"></span>%</h2>
-    <button onclick="goToMainMenu()">Go to Main Menu</button>
-</div>
-
-<script>
-    let currentSection = null;
-    let questions = [];
+  </div>
+  
+  <script>
+    let currentCategory = null;
     let currentQuestionIndex = 0;
     let score = 0;
-    let answeredQuestions = 0;
+    let quizData = [];
 
-    const sectionData = {
-        1: {
-            name: "Section 1 (Easy)",
-            colorClass: "easy"
-        },
-        2: {
-            name: "Section 2 (Difficult)",
-            colorClass: "difficult"
-        }
-        // Add more sections if needed
-    };
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCategories();
+    });
 
-    function startQuiz(section) {
-        currentSection = section;
-        currentQuestionIndex = 0;
-        score = 0;
-        answeredQuestions = 0;
-        document.getElementById("main-menu").classList.add("hidden");
-        document.getElementById("quiz-container").classList.remove("hidden");
-        loadQuestions(section);
-        showQuestion();
-    }
-
-    function loadQuestions(section) {
-        fetch('questions.json')
-            .then(response => response.json())
-            .then(data => {
-                questions = data[section];
-            });
-    }
-
-    function showQuestion() {
-        const question = questions[currentQuestionIndex];
-        document.getElementById("question-container").innerHTML = `
-            <p>${question.question}</p>
-            <div>
-                <p><strong>North:</strong><br/> ${question.north}</p>
-                <p><strong>South:</strong><br/> ${question.south}</p>
-            </div>
-        `;
-        document.getElementById("hint-container").innerText = `Hint: ${question.hint}`;
-        document.getElementById("hint-container").onclick = () => showHint(question.hint);
-        createAnswerButtons(question);
-    }
-
-    function createAnswerButtons(question) {
-        const container = document.getElementById("next-button-container");
-        container.innerHTML = "";
-        question.answers.forEach((answer, index) => {
-            const button = document.createElement("button");
-            button.innerText = answer.text;
-            button.classList.add("answer-button");
-            button.onclick = () => checkAnswer(index, answer.correct, button);
-            container.appendChild(button);
+    function loadCategories() {
+      fetch('questions.json')
+        .then(response => response.json())
+        .then(data => {
+          quizData = data.categories;
+          const categoryContainer = document.getElementById('category-container');
+          quizData.forEach(category => {
+            const button = document.createElement('button');
+            button.textContent = category.name;
+            button.classList.add('category-btn', category.difficulty);
+            button.onclick = () => startQuiz(category);
+            categoryContainer.appendChild(button);
+          });
         });
     }
 
-    function checkAnswer(index, isCorrect, button) {
-        if (answeredQuestions > 0) return; // Prevent changing answer after explanation is shown
-        
-        button.style.backgroundColor = isCorrect ? "#4CAF50" : "#f44336";
-        if (isCorrect) score += 1;
-        answeredQuestions++;
-        showExplanation(index, isCorrect);
+    function startQuiz(category) {
+      currentCategory = category;
+      currentQuestionIndex = 0;
+      score = 0;
+      document.getElementById('category-container').style.display = 'none';
+      document.getElementById('quiz-section').style.display = 'block';
+      showQuestion();
     }
 
-    function showExplanation(index, isCorrect) {
-        const explanation = questions[currentQuestionIndex].answers[index].explanation;
-        const explanationText = document.createElement("p");
-        explanationText.innerText = explanation;
-        document.getElementById("next-button-container").appendChild(explanationText);
+    function showQuestion() {
+      const question = currentCategory.questions[currentQuestionIndex];
+      document.getElementById('question-text').textContent = question.question;
+      document.getElementById('answer-container').innerHTML = '';
+      question.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.textContent = answer.text;
+        button.onclick = () => checkAnswer(button, answer);
+        document.getElementById('answer-container').appendChild(button);
+      });
+
+      document.getElementById('hint-btn').onclick = () => alert(question.hint);
+      document.getElementById('next-btn').style.display = 'none';
     }
 
-    function nextQuestion() {
-        if (currentQuestionIndex < questions.length - 1) {
-            currentQuestionIndex++;
-            showQuestion();
-        } else {
-            showScore();
-        }
+    function checkAnswer(button, answer) {
+      const question = currentCategory.questions[currentQuestionIndex];
+      if (answer.isCorrect) {
+        button.classList.add('correct');
+        score++;
+      } else {
+        button.classList.add('incorrect');
+        const correctAnswerButton = Array.from(document.getElementById('answer-container').children).find(child => child.textContent === question.answers.find(a => a.isCorrect).text);
+        correctAnswerButton.classList.add('correct');
+      }
+
+      document.getElementById('explanation').textContent = question.explanation;
+      document.getElementById('explanation').style.display = 'block';
+      document.getElementById('next-btn').style.display = 'block';
     }
 
-    function showScore() {
-        const percentage = Math.round((score / questions.length) * 100);
-        document.getElementById("score").innerText = percentage;
-        document.getElementById("score-popup").classList.remove("hidden");
+    document.getElementById('next-btn').onclick = () => {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < currentCategory.questions.length) {
+        showQuestion();
+        document.getElementById('explanation').style.display = 'none';
+      } else {
+        endQuiz();
+      }
+    };
+
+    function endQuiz() {
+      document.getElementById('quiz-section').style.display = 'none';
+      document.getElementById('score-section').style.display = 'block';
+      document.getElementById('final-score').textContent = `${score} / ${currentCategory.questions.length}`;
     }
 
-    function goToMainMenu() {
-        document.getElementById("score-popup").classList.add("hidden");
-        document.getElementById("quiz-container").classList.add("hidden");
-        document.getElementById("main-menu").classList.remove("hidden");
-    }
-
-    function showHint(hint) {
-        alert(hint);
-    }
-</script>
-
+    document.getElementById('go-to-main-menu').onclick = () => {
+      document.getElementById('score-section').style.display = 'none';
+      document.getElementById('category-container').style.display = 'block';
+      loadCategories();  // Optionally reload categories in case any changes were made.
+    };
+  </script>
 </body>
 </html>
