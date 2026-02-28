@@ -149,6 +149,13 @@
                 hint: "Kreći sa najvišim kartama.",
                 explanation: "Treba da igraš K kao početnu kartu.",
             },
+            {
+                question: "Kako igraš ovu boju: Axx Kxx?",
+                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
+                correctAnswer: 0,
+                hint: "Počni sa najvišim kartama.",
+                explanation: "Počni sa A, da proveriš distribuciju.",
+            },
         ],
         medium: [
             {
@@ -157,6 +164,13 @@
                 correctAnswer: 0,
                 hint: "Počni sa visokim kartama.",
                 explanation: "Počni sa A da bi proverio distribuciju.",
+            },
+            {
+                question: "Kako bi trebalo da igraš ovu boju: Qx Kxx?",
+                answers: ["Odigraj Q", "Odigraj K", "Odigraj x", "Odigraj xx"],
+                correctAnswer: 1,
+                hint: "Počni sa K ako imaš kontrolu.",
+                explanation: "Počni sa K kako bi bio siguran u distribuciju.",
             },
         ],
         hard: [
@@ -167,18 +181,26 @@
                 hint: "Odigraj Q u sredini.",
                 explanation: "Q je najverovatnija karta koja će doneti dobitak.",
             },
+            {
+                question: "Kako bi trebalo da igraš ovu boju: Axx Txx?",
+                answers: ["Odigraj A", "Odigraj T", "Odigraj x", "Odigraj xx"],
+                correctAnswer: 0,
+                hint: "Počni sa A kartom.",
+                explanation: "Počni sa A, kako bi proverio distribuciju.",
+            },
         ],
     };
 
     let currentCategory = '';
     let currentQuestionIndex = 0;
     let score = 0;
-    let currentAnswers = [];
+    let totalQuestions = 0;
 
     function startCategory(category) {
         currentCategory = category;
         currentQuestionIndex = 0;
         score = 0;
+        totalQuestions = questions[category].length;
         document.getElementById('menu').style.display = 'none';
         document.getElementById('question-section').style.display = 'block';
         showQuestion();
@@ -231,7 +253,8 @@
         } else {
             document.getElementById('question-section').style.display = 'none';
             const sectionBtn = document.querySelector(`button[onclick="startCategory('${currentCategory}')"]`);
-            sectionBtn.innerHTML = `Završeno (${score})`;
+            const percentage = ((score / totalQuestions) * 100).toFixed(2);
+            sectionBtn.innerHTML = `Završeno (${percentage}%)`;
             document.getElementById('menu').style.display = 'block';
         }
     }
