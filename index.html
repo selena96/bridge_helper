@@ -30,24 +30,13 @@
       width: 90%;
       max-width: 300px;
       font-size: 1em;
-      background: #007bff;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
     }
 
-    .section-btn:hover {
-      background: #0056b3;
-    }
-
-    .section-score {
-      font-size: 0.9em;
-      color: #212529;
-      margin-top: 5px;
-    }
-
-    /* Color coding for sections */
+    /* Section color defined in questions.json */
     .section-green {
       background-color: #28a745;
     }
@@ -96,6 +85,14 @@
       background: #0056b3;
     }
 
+    .correct {
+      background: #28a745;
+    }
+
+    .incorrect {
+      background: #dc3545;
+    }
+
     .selected {
       background: #28a745;
       border-color: #007bff;
@@ -107,16 +104,6 @@
       border-radius: 6px;
       margin-top: 20px;
       display: none;
-    }
-
-    .correct {
-      background: #d4edda;
-      border-left: 4px solid #28a745;
-    }
-
-    .incorrect {
-      background: #f8d7da;
-      border-left: 4px solid #dc3545;
     }
 
     #nextBtn,
@@ -298,17 +285,9 @@
         btn.innerText = section;
         btn.dataset.section = section;
 
-        // Color the sections based on their score
-        const sectionScore = sectionScores[section];
-        if (sectionScore !== undefined) {
-          if (sectionScore >= 80) {
-            btn.classList.add('section-green');
-          } else if (sectionScore >= 50) {
-            btn.classList.add('section-orange');
-          } else {
-            btn.classList.add('section-red');
-          }
-        }
+        // Color the sections based on their color value in questions.json
+        const sectionColor = questionBank[section].color || "section-green";
+        btn.classList.add(sectionColor);
 
         btn.addEventListener("click", () => {
           currentSection = section;
