@@ -10,253 +10,237 @@
             margin: 0;
             padding: 0;
             background-color: #f0f0f0;
-            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
+
         .container {
-            width: 90%;
+            width: 100%;
             max-width: 600px;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
-            font-size: 24px;
             margin-bottom: 20px;
         }
-        .category-button {
+
+        .category-btn {
             display: block;
-            padding: 15px;
             margin: 10px 0;
+            padding: 15px;
             text-align: center;
-            font-size: 18px;
             border-radius: 8px;
+            color: white;
+            font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            text-align: center;
-            width: 100%;
-            box-sizing: border-box;
+            transition: 0.3s;
         }
-        .category-button:hover {
+
+        .category-btn:hover {
             opacity: 0.9;
         }
-        .easy { background-color: #4CAF50; color: white; }
-        .medium { background-color: #FF9800; color: white; }
-        .hard { background-color: #F44336; color: white; }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .question-container {
             display: none;
         }
-        .answer-button {
-            display: block;
-            padding: 12px;
-            margin: 10px 0;
-            text-align: center;
-            font-size: 18px;
+
+        .answer-btn {
+            padding: 10px;
             border: 2px solid #ccc;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .answer-btn.correct {
+            background-color: green;
+            color: white;
+        }
+
+        .answer-btn.wrong {
+            background-color: red;
+            color: white;
+        }
+
+        .answer-btn.correct-other {
+            background-color: #8bc34a;
+            color: white;
+        }
+
+        .hint-btn {
+            margin: 10px 0;
+            background-color: #f0c14b;
+            color: white;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: 100%;
-            box-sizing: border-box;
         }
-        .answer-button:hover {
-            opacity: 0.8;
-        }
-        .green { background-color: #4CAF50 !important; }
-        .red { background-color: #F44336 !important; }
+
         .explanation {
             margin-top: 20px;
-            font-size: 16px;
-            color: #555;
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
         }
-        .next-button {
-            display: block;
-            background-color: #007BFF;
+
+        .score {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .next-btn {
+            background-color: #4caf50;
             color: white;
             padding: 10px 20px;
-            text-align: center;
-            font-size: 18px;
             border-radius: 8px;
-            margin-top: 20px;
+            border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
-        .next-button:hover {
-            opacity: 0.9;
-        }
-        .score {
-            text-align: center;
-            font-size: 20px;
-            margin-top: 20px;
-        }
-        .category-button .score-text {
-            font-size: 14px;
-            color: #777;
+
+        .next-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Bridž - test</h1>
-
-        <div class="main-menu">
-            <h3>Izaberi kategoriju</h3>
-            <button class="category-button easy" onclick="startQuiz('easy')">Lako</button>
-            <button class="category-button medium" onclick="startQuiz('medium')">Srednje</button>
-            <button class="category-button hard" onclick="startQuiz('hard')">Teško</button>
-        </div>
-
-        <div class="question-container" id="question-container">
-            <h3 id="question-text"></h3>
-            <button id="answer1" class="answer-button" onclick="selectAnswer(1)"></button>
-            <button id="answer2" class="answer-button" onclick="selectAnswer(2)"></button>
-            <button id="answer3" class="answer-button" onclick="selectAnswer(3)"></button>
-            <button id="answer4" class="answer-button" onclick="selectAnswer(4)"></button>
-
-            <div class="explanation" id="explanation"></div>
-
-            <button id="next-button" class="next-button" onclick="nextQuestion()" style="display:none;">Next</button>
-        </div>
-
-        <div class="score" id="score" style="display:none;">
-            <h3>Vaš rezultat: <span id="final-score"></span></h3>
-            <button class="next-button" onclick="goToMainMenu()">Idi na početni meni</button>
-        </div>
+<div class="container">
+    <h1>Bridž - test</h1>
+    <div id="menu" class="button-container">
+        <button class="category-btn" style="background-color: #2196F3;" onclick="startCategory('easy')">Laka kategorija</button>
+        <button class="category-btn" style="background-color: #ff9800;" onclick="startCategory('medium')">Srednja kategorija</button>
+        <button class="category-btn" style="background-color: #f44336;" onclick="startCategory('hard')">Teška kategorija</button>
     </div>
 
-    <script>
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let currentCategory = '';
-        let selectedAnswer = null; // Store the last selected answer index
-        let correctAnswer = null; // Store the correct answer index for comparison
-        let categoryScores = { easy: null, medium: null, hard: null };
+    <div id="question-section" class="question-container">
+        <h2 id="question-title"></h2>
+        <p id="question-text"></p>
+        <div id="answers-container"></div>
+        <button id="hint-btn" class="hint-btn" onclick="showHint()">Prikazi hint</button>
+        <div id="explanation" class="explanation" style="display: none;"></div>
+        <div class="score" id="score"></div>
+        <button id="next-btn" class="next-btn" onclick="nextQuestion()" disabled>Dalje</button>
+    </div>
+</div>
 
-        // Fetch questions from questions.json
-        fetch('questions.json')
-            .then(response => response.json())
-            .then(data => {
-                questions = data;
-            });
+<script>
+    const questions = {
+        easy: [
+            {
+                question: "Kako igraš ovu boju: KQJx Txx?",
+                answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
+                correctAnswer: 0,
+                hint: "Kreći sa najvišim kartama.",
+                explanation: "Treba da igraš K kao početnu kartu.",
+            },
+        ],
+        medium: [
+            {
+                question: "Kako bi trebalo da igraš ovu boju: Axx Kxx?",
+                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
+                correctAnswer: 0,
+                hint: "Počni sa visokim kartama.",
+                explanation: "Počni sa A da bi proverio distribuciju.",
+            },
+        ],
+        hard: [
+            {
+                question: "Kako bi trebalo da igraš ovu boju: KQx T9x?",
+                answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
+                correctAnswer: 1,
+                hint: "Odigraj Q u sredini.",
+                explanation: "Q je najverovatnija karta koja će doneti dobitak.",
+            },
+        ],
+    };
 
-        // Start quiz for a selected category
-        function startQuiz(category) {
-            currentCategory = category;
-            currentQuestionIndex = 0;
-            score = 0;
-            selectedAnswer = null;
-            correctAnswer = null;
-            document.querySelector('.main-menu').style.display = 'none';
-            document.querySelector('#question-container').style.display = 'block';
-            document.querySelector('#score').style.display = 'none';
-            document.querySelector('#final-score').textContent = '';
-            loadQuestion();
+    let currentCategory = '';
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let currentAnswers = [];
+
+    function startCategory(category) {
+        currentCategory = category;
+        currentQuestionIndex = 0;
+        score = 0;
+        document.getElementById('menu').style.display = 'none';
+        document.getElementById('question-section').style.display = 'block';
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const questionData = questions[currentCategory][currentQuestionIndex];
+        document.getElementById('question-title').textContent = `Pitanje ${currentQuestionIndex + 1}`;
+        document.getElementById('question-text').textContent = questionData.question;
+
+        let answersHtml = '';
+        questionData.answers.forEach((answer, index) => {
+            answersHtml += `<button class="answer-btn" onclick="checkAnswer(${index})">${answer}</button>`;
+        });
+        document.getElementById('answers-container').innerHTML = answersHtml;
+        document.getElementById('hint-btn').style.display = 'inline-block';
+        document.getElementById('explanation').style.display = 'none';
+        document.getElementById('score').style.display = 'none';
+        document.getElementById('next-btn').disabled = true;
+    }
+
+    function checkAnswer(selectedIndex) {
+        const questionData = questions[currentCategory][currentQuestionIndex];
+        const correctIndex = questionData.correctAnswer;
+
+        const buttons = document.querySelectorAll('.answer-btn');
+        if (selectedIndex === correctIndex) {
+            buttons[selectedIndex].classList.add('correct');
+            score++;
+        } else {
+            buttons[selectedIndex].classList.add('wrong');
+            buttons[correctIndex].classList.add('correct-other');
         }
 
-        // Load question based on the current index
-        function loadQuestion() {
-            const categoryQuestions = questions[currentCategory];
-            const question = categoryQuestions[currentQuestionIndex];
+        // Disable all answers
+        buttons.forEach(button => button.disabled = true);
 
-            document.querySelector('#question-text').textContent = question.question;
-            document.querySelector('#answer1').textContent = question.answers[0];
-            document.querySelector('#answer2').textContent = question.answers[1];
-            document.querySelector('#answer3').textContent = question.answers[2];
-            document.querySelector('#answer4').textContent = question.answers[3];
+        // Show explanation
+        document.getElementById('explanation').textContent = questionData.explanation;
+        document.getElementById('explanation').style.display = 'block';
+        document.getElementById('score').style.display = 'block';
+        document.getElementById('score').textContent = `Trenutni skor: ${score}`;
+        document.getElementById('next-btn').disabled = false;
+    }
 
-            document.querySelector('#explanation').textContent = '';
-            document.querySelector('#next-button').style.display = 'none';
-            document.querySelectorAll('.answer-button').forEach(button => {
-                button.classList.remove('green', 'red'); // Reset colors
-                button.disabled = false; // Enable buttons
-            });
-
-            selectedAnswer = null; // Reset selected answer
-            correctAnswer = categoryQuestions[currentQuestionIndex].correctAnswer;
-        }
-
-        // Handle answer selection
-        function selectAnswer(answerIndex) {
-            // Reset previous answer selection
-            if (selectedAnswer !== null) {
-                document.querySelector(`#answer${selectedAnswer}`).classList.remove('green', 'red');
-            }
-
-            selectedAnswer = answerIndex; // Set the new selected answer
-
-            // Mark the selected answer
-            if (answerIndex === correctAnswer) {
-                document.querySelector(`#answer${answerIndex}`).classList.add('green');
-                score++; // Increase score if correct
-            } else {
-                document.querySelector(`#answer${answerIndex}`).classList.add('red');
-                document.querySelector(`#answer${correctAnswer}`).classList.add('green');
-            }
-
-            // Show explanation and next button
-            const categoryQuestions = questions[currentCategory];
-            const question = categoryQuestions[currentQuestionIndex];
-            document.querySelector('#explanation').textContent = question.explanation;
-
-            document.querySelector('#next-button').style.display = 'block';
-            document.querySelectorAll('.answer-button').forEach(button => button.disabled = true); // Disable buttons after answer is selected
-        }
-
-        // Move to the next question or show final score
-        function nextQuestion() {
+    function nextQuestion() {
+        if (currentQuestionIndex < questions[currentCategory].length - 1) {
             currentQuestionIndex++;
-            if (currentQuestionIndex < questions[currentCategory].length) {
-                loadQuestion();
-            } else {
-                showFinalScore();
-            }
+            showQuestion();
+        } else {
+            document.getElementById('question-section').style.display = 'none';
+            const sectionBtn = document.querySelector(`button[onclick="startCategory('${currentCategory}')"]`);
+            sectionBtn.innerHTML = `Završeno (${score})`;
+            document.getElementById('menu').style.display = 'block';
         }
+    }
 
-        // Show final score and the "Go to Main Menu" button
-        function showFinalScore() {
-            document.querySelector('#score').style.display = 'block';
-            document.querySelector('#final-score').textContent = `${score} / ${questions[currentCategory].length}`;
-            categoryScores[currentCategory] = score; // Save the score for the current category
-            document.querySelector('#question-container').style.display = 'none';
+    function showHint() {
+        const questionData = questions[currentCategory][currentQuestionIndex];
+        alert(questionData.hint);
+    }
+</script>
 
-            // Rename the category button with the score
-            updateCategoryButton(currentCategory);
-        }
-
-        // Go back to the main menu
-        function goToMainMenu() {
-            // Reset the quiz state completely
-            currentQuestionIndex = 0;
-            score = 0;
-            selectedAnswer = null;
-            correctAnswer = null;
-            document.querySelector('.main-menu').style.display = 'block';
-            document.querySelector('#score').style.display = 'none';
-            document.querySelector('#question-container').style.display = 'none';
-
-            // Update category buttons with scores
-            updateCategoryButton('easy');
-            updateCategoryButton('medium');
-            updateCategoryButton('hard');
-        }
-
-        // Update category buttons with score next to them
-        function updateCategoryButton(category) {
-            const button = document.querySelector(`.category-button.${category}`);
-            if (categoryScores[category] !== null) {
-                button.innerHTML = `${category.charAt(0).toUpperCase() + category.slice(1)}`;
-                button.innerHTML += `<div class="score-text">${categoryScores[category]} / ${questions[category].length}</div>`;
-            }
-        }
-    </script>
 </body>
 </html>
