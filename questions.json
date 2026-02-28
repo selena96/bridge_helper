@@ -1,38 +1,60 @@
-[
-    {
-        "difficulty": "easy",
-        "title": "Easy Section",
-        "color": "green",  // Green for Easy Section
-        "questions": [
-            {
-                "question": "What is the most common suit in bridge?",
-                "hint": "It's one of the four suits.",
-                "answers": [
-                    {"text": "Hearts", "correct": false},
-                    {"text": "Clubs", "correct": false},
-                    {"text": "Spades", "correct": true},
-                    {"text": "Diamonds", "correct": false}
-                ],
-                "explanation": "Spades is the highest-ranking suit in bridge."
-            }
-        ]
-    },
-    {
-        "difficulty": "hard",
-        "title": "Hard Section",
-        "color": "red",  // Red for Hard Section
-        "questions": [
-            {
-                "question": "How many points are awarded for a trick in a bridge contract?",
-                "hint": "It's based on the type of contract you have.",
-                "answers": [
-                    {"text": "1", "correct": false},
-                    {"text": "10", "correct": false},
-                    {"text": "20", "correct": true},
-                    {"text": "50", "correct": false}
-                ],
-                "explanation": "A trick in a bridge contract typically scores 20 points."
-            }
-        ]
-    }
-]
+{
+    "1": [
+        {
+            "question": "Which hand is the stronger one?",
+            "north": "North: Ace, King, Queen of spades",
+            "south": "South: 10, 9, 8 of hearts",
+            "answers": [
+                {
+                    "text": "North hand is stronger",
+                    "correct": true,
+                    "explanation": "The North hand has Ace, King, Queen which are higher-ranking cards in the suit."
+                },
+                {
+                    "text": "South hand is stronger",
+                    "correct": false,
+                    "explanation": "South hand is weaker compared to the North hand."
+                }
+            ],
+            "hint": "Look at the face cards in each hand."
+        },
+        {
+            "question": "What is the best opening bid?",
+            "north": "North: 1NT",
+            "south": "South: Pass",
+            "answers": [
+                {
+                    "text": "1NT",
+                    "correct": true,
+                    "explanation": "1NT is a common bid indicating a balanced hand with no five-card major suit."
+                },
+                {
+                    "text": "Pass",
+                    "correct": false,
+                    "explanation": "Pass would not be the best opening bid in this scenario."
+                }
+            ],
+            "hint": "Consider the hand distribution."
+        }
+    ],
+    "2": [
+        {
+            "question": "What is a strong 2NT bid?",
+            "north": "North: 2NT",
+            "south": "South: Pass",
+            "answers": [
+                {
+                    "text": "Strong 2NT indicates 20-22 points",
+                    "correct": true,
+                    "explanation": "A 2NT bid shows a balanced hand with 20-22 points."
+                },
+                {
+                    "text": "Strong 2NT indicates 18-19 points",
+                    "correct": false,
+                    "explanation": "A bid of 2NT showing 18-19 points is not considered strong."
+                }
+            ],
+            "hint": "Think about the points and hand distribution."
+        }
+    ]
+}
