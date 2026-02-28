@@ -1,9 +1,21 @@
 {
   "Basics": [
-    {"question":"How many HCP is an Ace worth?","options":["2","3","4","5"],"correct":2},
-    {"question":"How many HCP is a King worth?","options":["2","3","4","5"],"correct":1}
+    {
+      "question": "How many HCP is an Ace worth?",
+      "options": ["2", "3", "4", "5"],
+      "correct": 2
+    },
+    {
+      "question": "How many HCP is a King worth?",
+      "options": ["2", "3", "4", "5"],
+      "correct": 1
+    }
   ],
   "Bidding": [
-    {"question":"Partner opens 1NT. You hold ♠KQ74 ♥83 ♦A762 ♣KQ5. What do you bid?","options":["Pass","2♣ Stayman","2NT","3NT"],"correct":1}
+    {
+      "question": "Partner opens 1NT. You hold ♠KQ74 ♥83 ♦A762 ♣KQ5. What do you bid?",
+      "options": ["Pass","2♣ Stayman","2NT","3NT"],
+      "correct": 1
+    }
   ]
 }
