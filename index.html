@@ -1,242 +1,255 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridž - Test</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
-      color: #333;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    h1, h2 {
-      margin-bottom: 20px;
-    }
-
-    button {
-      margin: 10px 0;
-      padding: 10px 20px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      background-color: #ccc;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    #category-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .category-btn {
-      padding: 15px;
-      background-color: #28a745;
-      color: white;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .category-btn.easy {
-      background-color: #28a745;
-    }
-
-    .category-btn.medium {
-      background-color: #ffc107;
-    }
-
-    .category-btn.hard {
-      background-color: #dc3545;
-    }
-
-    .score-percentage {
-      position: absolute;
-      right: 10px;
-      font-size: 14px;
-      color: #fff;
-    }
-
-    #answer-container button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-    }
-
-    #answer-container button.correct {
-      background-color: #28a745;
-    }
-
-    #answer-container button.incorrect {
-      background-color: #dc3545;
-    }
-
-    #explanation {
-      margin-top: 20px;
-    }
-
-    #quiz-section, #score-section {
-      display: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridž - test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+        .category-btn {
+            width: 90%;
+            margin: 10px auto;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .easy {
+            background-color: #8BC34A;
+        }
+        .medium {
+            background-color: #FFC107;
+        }
+        .hard {
+            background-color: #F44336;
+        }
+        .question-container {
+            display: none;
+            padding: 20px;
+            background-color: #ffffff;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .hint {
+            color: #2196F3;
+            cursor: pointer;
+        }
+        .answer-btn {
+            width: 90%;
+            padding: 12px;
+            margin: 5px auto;
+            font-size: 16px;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .correct {
+            background-color: #4CAF50;
+        }
+        .incorrect {
+            background-color: #F44336;
+        }
+        .explanation {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+        .next-btn {
+            display: none;
+            padding: 15px;
+            background-color: #2196F3;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            width: 90%;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .score-popup {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .score-popup button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .close-popup {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Bridž - Test</h1>
-    <h2>Izaberi kategoriju</h2>
-    
-    <!-- Categories will be loaded dynamically from JSON -->
-    <div id="category-container"></div>
 
-    <!-- Quiz section -->
-    <div id="quiz-section" style="display: none;">
-      <div id="question-container">
-        <p id="question-text"></p>
-        <button id="hint-btn">Hint</button>
-        
-        <div id="answer-container"></div>
-        
-        <div id="explanation" style="display: none;"></div>
-        
-        <button id="next-btn" style="display: none;">Next</button>
-      </div>
+<header>
+    <h1>Bridž - test</h1>
+    <h3>Izaberi kategoriju</h3>
+</header>
+
+<div id="menu">
+    <!-- Categories will be injected here by JavaScript -->
+</div>
+
+<div id="quiz-container">
+    <div class="question-container" id="question-container">
+        <h3 id="question"></h3>
+        <div class="hint" id="hint">Hint</div>
+        <div id="answers"></div>
+        <div class="explanation" id="explanation"></div>
+        <button class="next-btn" id="next-btn">Next</button>
     </div>
-    
-    <!-- Final score -->
-    <div id="score-section" style="display: none;">
-      <p>Your Score: <span id="final-score"></span></p>
-      <button id="go-to-main-menu">Go to Main Menu</button>
-    </div>
-  </div>
-  
-  <script>
+</div>
+
+<div class="score-popup" id="score-popup">
+    <h3>Vaš rezultat: <span id="score"></span></h3>
+    <button id="go-to-main-menu">Idi na glavni meni</button>
+</div>
+
+<script>
+    const categories = [
+        { id: "easy", name: "Laka", color: "easy", questions: "easy_questions" },
+        { id: "medium", name: "Srednja", color: "medium", questions: "medium_questions" },
+        { id: "hard", name: "Teška", color: "hard", questions: "hard_questions" }
+    ];
+
+    const allQuestions = {
+        easy_questions: [
+            {
+                question: "Kako igraš ovu boju?",
+                hand: "KQJx Txx",
+                options: ["Ostavi boju", "Igraj visoko", "Igraj nisku", "Igraj u triku"],
+                answer: 1,
+                explanation: "Ovaj redosled karti je odličan za igranje visoko."
+            }
+        ],
+        medium_questions: [
+            {
+                question: "Kako igraš ovu boju?",
+                hand: "Axx KJx",
+                options: ["Igraj visoko", "Igraj nisku", "Igraj u triku", "Ostavi boju"],
+                answer: 2,
+                explanation: "Srednji redosled kao što je ovaj obično zahteva igranje niskih karti."
+            }
+        ],
+        hard_questions: [
+            {
+                question: "Kako igraš ovu boju?",
+                hand: "KJ10x Q9xx",
+                options: ["Ostavi boju", "Igraj visoko", "Igraj nisku", "Igraj u triku"],
+                answer: 3,
+                explanation: "Ovaj redosled karti zahteva korišćenje trikova za postizanje boljih rezultata."
+            }
+        ]
+    };
+
     let currentCategory = null;
     let currentQuestionIndex = 0;
     let score = 0;
-    let quizData = [];
-    let categoryScores = {};  // To hold category scores
 
-    document.addEventListener('DOMContentLoaded', () => {
-      loadCategories();
-    });
-
-    function loadCategories() {
-      fetch('questions.json')
-        .then(response => response.json())
-        .then(data => {
-          quizData = data.categories;
-          const categoryContainer = document.getElementById('category-container');
-          categoryContainer.innerHTML = '';  // Clear previous categories
-          
-          quizData.forEach((category, index) => {
-            const button = document.createElement('button');
+    function showCategoryMenu() {
+        const menuDiv = document.getElementById("menu");
+        menuDiv.innerHTML = '';
+        categories.forEach(category => {
+            const button = document.createElement("button");
+            button.classList.add("category-btn", category.color);
             button.textContent = category.name;
-
-            // Check if category has been completed
-            if (categoryScores[category.name]) {
-              const percentage = (categoryScores[category.name].score / categoryScores[category.name].totalQuestions) * 100;
-              button.innerHTML = `${category.name} <span class="score-percentage">${Math.round(percentage)}%</span>`;
-            }
-            
-            button.classList.add('category-btn', category.difficulty);
-            button.onclick = () => startQuiz(category, index);
-            categoryContainer.appendChild(button);
-          });
+            button.onclick = () => startQuiz(category);
+            menuDiv.appendChild(button);
         });
     }
 
-    function startQuiz(category, index) {
-      currentCategory = category;
-      currentQuestionIndex = 0;
-      score = 0;
-      document.getElementById('category-container').style.display = 'none';
-      document.getElementById('quiz-section').style.display = 'block';
-      showQuestion();
+    function startQuiz(category) {
+        currentCategory = category;
+        currentQuestionIndex = 0;
+        score = 0;
+        showQuestion();
     }
 
     function showQuestion() {
-      const question = currentCategory.questions[currentQuestionIndex];
-      document.getElementById('question-text').textContent = question.question;
-      document.getElementById('answer-container').innerHTML = '';
-      question.answers.forEach(answer => {
-        const button = document.createElement('button');
-        button.textContent = answer.text;
-        button.onclick = () => checkAnswer(button, answer);
-        document.getElementById('answer-container').appendChild(button);
-      });
+        const questionContainer = document.getElementById("question-container");
+        const question = allQuestions[currentCategory.questions][currentQuestionIndex];
 
-      document.getElementById('hint-btn').onclick = () => alert(question.hint);
-      document.getElementById('next-btn').style.display = 'none';
+        document.getElementById("question").textContent = question.question;
+        document.getElementById("answers").innerHTML = '';
+        document.getElementById("hint").onclick = () => alert("Hint: " + question.explanation);
+
+        question.options.forEach((option, index) => {
+            const btn = document.createElement("button");
+            btn.classList.add("answer-btn");
+            btn.textContent = option;
+            btn.onclick = () => checkAnswer(index, question);
+            document.getElementById("answers").appendChild(btn);
+        });
+
+        questionContainer.style.display = "block";
+        document.getElementById("next-btn").style.display = "none";
     }
 
-    function checkAnswer(button, answer) {
-      const question = currentCategory.questions[currentQuestionIndex];
-      if (answer.isCorrect) {
-        button.classList.add('correct');
-        score++;
-      } else {
-        button.classList.add('incorrect');
-        const correctAnswerButton = Array.from(document.getElementById('answer-container').children).find(child => child.textContent === question.answers.find(a => a.isCorrect).text);
-        correctAnswerButton.classList.add('correct');
-      }
+    function checkAnswer(selectedIndex, question) {
+        const answerBtns = document.querySelectorAll(".answer-btn");
+        const explanationDiv = document.getElementById("explanation");
 
-      document.getElementById('explanation').textContent = question.explanation;
-      document.getElementById('explanation').style.display = 'block';
-      document.getElementById('next-btn').style.display = 'block';
+        if (selectedIndex === question.answer) {
+            answerBtns[selectedIndex].classList.add("correct");
+            score++;
+        } else {
+            answerBtns[selectedIndex].classList.add("incorrect");
+            answerBtns[question.answer].classList.add("correct");
+        }
+
+        explanationDiv.textContent = question.explanation;
+        document.getElementById("next-btn").style.display = "block";
     }
 
-    document.getElementById('next-btn').onclick = () => {
-      currentQuestionIndex++;
-      if (currentQuestionIndex < currentCategory.questions.length) {
-        showQuestion();
-        document.getElementById('explanation').style.display = 'none';
-      } else {
-        endQuiz();
-      }
+    document.getElementById("next-btn").onclick = function() {
+        if (currentQuestionIndex < allQuestions[currentCategory.questions].length - 1) {
+            currentQuestionIndex++;
+            showQuestion();
+        } else {
+            showScore();
+        }
     };
 
-    function endQuiz() {
-      // Save score to categoryScores
-      categoryScores[currentCategory.name] = {
-        score: score,
-        totalQuestions: currentCategory.questions.length
-      };
-
-      document.getElementById('quiz-section').style.display = 'none';
-      document.getElementById('score-section').style.display = 'block';
-      document.getElementById('final-score').textContent = `${score} / ${currentCategory.questions.length}`;
+    function showScore() {
+        document.getElementById("score").textContent = score;
+        document.getElementById("score-popup").style.display = "block";
     }
 
-    document.getElementById('go-to-main-menu').onclick = () => {
-      document.getElementById('score-section').style.display = 'none';
-      document.getElementById('category-container').style.display = 'block';
-      loadCategories();  // Reload categories with updated scores
+    document.getElementById("go-to-main-menu").onclick = function() {
+        showCategoryMenu();
+        document.getElementById("score-popup").style.display = "none";
     };
-  </script>
+
+    showCategoryMenu();
+</script>
+
 </body>
 </html>
