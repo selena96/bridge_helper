@@ -1,47 +1,43 @@
 {
-  "categories": [
-    {
-      "name": "Lako",
-      "difficulty": "easy",
-      "questions": [
+    "easy_questions": [
         {
-          "question": "Koji je najjači adut u Bridžu?",
-          "answers": [
-            { "text": "Srce", "isCorrect": false },
-            { "text": "Pik", "isCorrect": false },
-            { "text": "Tref", "isCorrect": true },
-            { "text": "Karo", "isCorrect": false }
-          ],
-          "hint": "To je adut koji dolazi nakon četiri boje.",
-          "explanation": "Tref je najjači adut u Bridžu."
+            "question": "Kako igraš ovu boju?",
+            "hand": "KQJx Txx",
+            "options": ["Ostavi boju", "Igraj visoko", "Igraj nisku", "Igraj u triku"],
+            "answer": 1,
+            "explanation": "Ovaj redosled karti je odličan za igranje visoko."
+        }
+    ],
+    "medium_questions": [
+        {
+            "question": "Kako igraš ovu boju?",
+            "hand": "Axx KJx",
+            "options": ["Igraj visoko", "Igraj nisku", "Igraj u triku", "Ostavi boju"],
+            "answer": 2,
+            "explanation": "Srednji redosled kao što je ovaj obično zahteva igranje niskih karti."
+        }
+    ],
+    "hard_questions": [
+        {
+            "question": "Kako igraš ovu boju?",
+            "hand": "KJ10x Q9xx",
+            "options": ["Ostavi boju", "Igraj visoko", "Igraj nisku", "Igraj u triku"],
+            "answer": 3,
+            "explanation": "Ovaj redosled karti zahteva korišćenje trikova za postizanje boljih rezultata."
         },
         {
-          "question": "Kako se zove partner u Bridžu?",
-          "answers": [
-            { "text": "Suparnik", "isCorrect": false },
-            { "text": "Kompanjon", "isCorrect": false },
-            { "text": "Partner", "isCorrect": true }
-          ],
-          "hint": "Njegov cilj je da pomogne i podrži.",
-          "explanation": "Partner je osoba koja deli kartice sa vama i zajedno igrate protiv drugih."
-        }
-      ]
-    },
-    {
-      "name": "Srednje",
-      "difficulty": "medium",
-      "questions": [
+            "question": "Kako igraš ovu boju?",
+            "hand": "AQxx K10x",
+            "options": ["Igraj visoko", "Igraj nisku", "Ostavi boju", "Igraj u triku"],
+            "answer": 0,
+            "explanation": "Visoka karta, kao što je dama, često je najbolja u ovakvim situacijama. Igraj visoko."
+        },
         {
-          "question": "Koja je najjača kombinacija u Bridžu?",
-          "answers": [
-            { "text": "Royal Flush", "isCorrect": false },
-            { "text": "Full House", "isCorrect": true },
-            { "text": "Straight Flush", "isCorrect": false }
-          ],
-          "hint": "Ova kombinacija je u osnovi tri para.",
-          "explanation": "Full House je najjača kombinacija."
+            "question": "Kako igraš ovu boju?",
+            "hand": "Jx 9xx",
+            "options": ["Igraj visoko", "Ostavi boju", "Igraj nisku", "Igraj u triku"],
+            "answer": 2,
+            "explanation": "U ovoj situaciji, igranje niskih karti može omogućiti bolje rezultate."
         }
-      ]
-    }
-  ]
+    ]
 }
