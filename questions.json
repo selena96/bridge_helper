@@ -1,60 +1,47 @@
 {
-    "1": [
+  "categories": [
+    {
+      "name": "Lako",
+      "difficulty": "easy",
+      "questions": [
         {
-            "question": "Which hand is the stronger one?",
-            "north": "North: Ace, King, Queen of spades",
-            "south": "South: 10, 9, 8 of hearts",
-            "answers": [
-                {
-                    "text": "North hand is stronger",
-                    "correct": true,
-                    "explanation": "The North hand has Ace, King, Queen which are higher-ranking cards in the suit."
-                },
-                {
-                    "text": "South hand is stronger",
-                    "correct": false,
-                    "explanation": "South hand is weaker compared to the North hand."
-                }
-            ],
-            "hint": "Look at the face cards in each hand."
+          "question": "Koji je najjači adut u Bridžu?",
+          "answers": [
+            { "text": "Srce", "isCorrect": false },
+            { "text": "Pik", "isCorrect": false },
+            { "text": "Tref", "isCorrect": true },
+            { "text": "Karo", "isCorrect": false }
+          ],
+          "hint": "To je adut koji dolazi nakon četiri boje.",
+          "explanation": "Tref je najjači adut u Bridžu."
         },
         {
-            "question": "What is the best opening bid?",
-            "north": "North: 1NT",
-            "south": "South: Pass",
-            "answers": [
-                {
-                    "text": "1NT",
-                    "correct": true,
-                    "explanation": "1NT is a common bid indicating a balanced hand with no five-card major suit."
-                },
-                {
-                    "text": "Pass",
-                    "correct": false,
-                    "explanation": "Pass would not be the best opening bid in this scenario."
-                }
-            ],
-            "hint": "Consider the hand distribution."
+          "question": "Kako se zove partner u Bridžu?",
+          "answers": [
+            { "text": "Suparnik", "isCorrect": false },
+            { "text": "Kompanjon", "isCorrect": false },
+            { "text": "Partner", "isCorrect": true }
+          ],
+          "hint": "Njegov cilj je da pomogne i podrži.",
+          "explanation": "Partner je osoba koja deli kartice sa vama i zajedno igrate protiv drugih."
         }
-    ],
-    "2": [
+      ]
+    },
+    {
+      "name": "Srednje",
+      "difficulty": "medium",
+      "questions": [
         {
-            "question": "What is a strong 2NT bid?",
-            "north": "North: 2NT",
-            "south": "South: Pass",
-            "answers": [
-                {
-                    "text": "Strong 2NT indicates 20-22 points",
-                    "correct": true,
-                    "explanation": "A 2NT bid shows a balanced hand with 20-22 points."
-                },
-                {
-                    "text": "Strong 2NT indicates 18-19 points",
-                    "correct": false,
-                    "explanation": "A bid of 2NT showing 18-19 points is not considered strong."
-                }
-            ],
-            "hint": "Think about the points and hand distribution."
+          "question": "Koja je najjača kombinacija u Bridžu?",
+          "answers": [
+            { "text": "Royal Flush", "isCorrect": false },
+            { "text": "Full House", "isCorrect": true },
+            { "text": "Straight Flush", "isCorrect": false }
+          ],
+          "hint": "Ova kombinacija je u osnovi tri para.",
+          "explanation": "Full House je najjača kombinacija."
         }
-    ]
+      ]
+    }
+  ]
 }
