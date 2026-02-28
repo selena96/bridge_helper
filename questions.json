@@ -2,6 +2,7 @@
     {
         "difficulty": "easy",
         "title": "Easy Section",
+        "color": "green",  // New property for color
         "questions": [
             {
                 "question": "What is the most common suit in bridge?",
@@ -30,6 +31,7 @@
     {
         "difficulty": "hard",
         "title": "Hard Section",
+        "color": "red",  // New property for color
         "questions": [
             {
                 "question": "How many points are awarded for a trick in a bridge contract?",
