@@ -264,7 +264,6 @@
     let currentSection = "";
     let questions = [];
     let currentIndex = 0;
-    let selectedOption = null;
     let score = 0;
 
     const home = document.getElementById("home");
@@ -314,4 +313,102 @@
           currentSection = section;
           startSection();
         });
-        home
+        home.appendChild(btn);
+      }
+    }
+
+    function startSection() {
+      home.style.display = "none";
+      results.style.display = "none";
+      quizContainer.style.display = "block";
+      questions = questionBank[currentSection].questions;
+      currentIndex = 0;
+      score = 0;
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = questions[currentIndex];
+      quizDiv.innerHTML = `
+        <div class="question">
+          <p>${q.question}</p>
+          <div class="hand"><strong>North:</strong> ${q.hand.north} <br><strong>South:</strong> ${q.hand.south}</div>
+          ${q.options.map((opt, i) => `<div class="option" data-index="${i}">${opt}</div>`).join("")}
+        </div>
+      `;
+      explanationDiv.style.display = "none";
+      explanationDiv.innerText = q.explanation || "";
+      selectedOption = null;
+      nextBtn.disabled = true;
+
+      if (q.hint) {
+        hintBtn.style.display = "block";
+        hintBtn.onclick = () => alert(q.hint);
+      } else {
+        hintBtn.style.display = "none";
+      }
+
+      document.querySelectorAll(".option").forEach(opt => {
+        opt.addEventListener("click", () => {
+          document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+          opt.classList.add("selected");
+          selectedOption = parseInt(opt.dataset.index);
+          showFeedback();
+          nextBtn.disabled = false;
+        });
+      });
+
+      updateProgress();
+    }
+
+    function showFeedback() {
+      const q = questions[currentIndex];
+      explanationDiv.style.display = "block";
+      explanationDiv.innerText = q.explanation || "";
+
+      // Mark answer as correct or incorrect
+      if (selectedOption === q.correct) {
+        document.querySelectorAll(".option")[selectedOption].classList.add('correct');
+        score++;
+      } else {
+        document.querySelectorAll(".option")[selectedOption].classList.add('incorrect');
+      }
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex++;
+      if (currentIndex < questions.length) loadQuestion();
+      else showResults();
+    });
+
+    function showResults() {
+      quizContainer.style.display = "none";
+      results.style.display = "block";
+      const percent = Math.round((score / questions.length) * 100);
+      sectionScores[currentSection] = percent;
+      scoreText.innerText = `You scored ${score} / ${questions.length} (${percent}%) in ${currentSection}`;
+    }
+
+    menuBtn.addEventListener("click", () => {
+      results.style.display = "none";
+      home.style.display = "block";
+      loadQuestions(); // reload with fresh scores
+    });
+
+    backBtn.addEventListener("click", () => {
+      quizContainer.style.display = "none";
+      results.style.display = "none";
+      home.style.display = "block";
+    });
+
+    function updateProgress() {
+      const percent = (currentIndex / questions.length) * 100;
+      progressBar.style.width = percent + "%";
+    }
+
+    // Initial load
+    loadQuestions();
+  </script>
+
+</body>
+</html>
