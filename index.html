@@ -57,6 +57,7 @@
         .hint {
             font-style: italic;
             color: #757575;
+            cursor: pointer;
             margin-bottom: 20px;
         }
         .explanation {
@@ -68,6 +69,20 @@
         .score {
             text-align: center;
             margin-top: 20px;
+        }
+        .menu-button {
+            padding: 15px;
+            font-size: 1.1em;
+            background-color: #4CAF50;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 5px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .menu-button:hover {
+            background-color: #45a049;
         }
         @media (max-width: 600px) {
             body {
@@ -83,48 +98,84 @@
     <header>
         <h1>Bridge Quiz App</h1>
     </header>
+
+    <!-- Main Menu -->
+    <div id="menu-container" style="display: none;">
+        <button class="menu-button" onclick="startSection(0)">Easy Section</button>
+        <button class="menu-button" onclick="startSection(1)">Hard Section</button>
+    </div>
+
+    <!-- Quiz Section -->
     <div id="quiz-container"></div>
     <div class="score" id="score-container"></div>
 
     <script>
-        const quizData = [
-            // This data will be dynamically loaded from questions.json
-        ];
-
+        const quizData = [];
         let currentSection = 0;
+        let currentQuestionIndex = 0;
         let score = 0;
         let totalQuestions = 0;
 
-        function renderSection(sectionIndex) {
-            const section = quizData[sectionIndex];
+        // Function to start the quiz after choosing a section
+        function startSection(sectionIndex) {
+            currentSection = sectionIndex;
+            currentQuestionIndex = 0;
+            score = 0;
+            totalQuestions = 0;
+            document.getElementById('menu-container').style.display = 'none';
+            renderSection();
+        }
+
+        // Render the quiz for the current section
+        function renderSection() {
+            const section = quizData[currentSection];
+            const questionData = section.questions[currentQuestionIndex];
+
             const sectionDiv = document.createElement('div');
             sectionDiv.classList.add('quiz-section');
             sectionDiv.classList.add(section.difficulty === 'easy' ? 'green-section' : 'red-section');
 
             const questionDiv = document.createElement('div');
             questionDiv.classList.add('question');
-            questionDiv.textContent = section.question;
+            questionDiv.textContent = questionData.question;
 
+            // Clickable hint
             const hintDiv = document.createElement('div');
             hintDiv.classList.add('hint');
-            hintDiv.textContent = `Hint: ${section.hint}`;
+            hintDiv.textContent = "Click here for a hint";
+            hintDiv.onclick = () => showHint(hintDiv, questionData.hint);
 
             sectionDiv.appendChild(questionDiv);
             sectionDiv.appendChild(hintDiv);
 
-            section.answers.forEach((answer, index) => {
+            // Answer buttons
+            questionData.answers.forEach((answer, index) => {
                 const button = document.createElement('button');
                 button.classList.add('answer-button');
                 button.textContent = answer.text;
-                button.onclick = () => handleAnswerClick(button, section, answer.correct);
+                button.onclick = () => handleAnswerClick(button, questionData, answer.correct);
                 sectionDiv.appendChild(button);
             });
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.classList.add('menu-button');
+            nextButton.textContent = 'Next Question';
+            nextButton.onclick = () => nextQuestion();
+            sectionDiv.appendChild(nextButton);
 
             document.getElementById('quiz-container').innerHTML = '';
             document.getElementById('quiz-container').appendChild(sectionDiv);
         }
 
-        function handleAnswerClick(button, section, isCorrect) {
+        // Show the hint when clicked
+        function showHint(hintDiv, hintText) {
+            hintDiv.textContent = `Hint: ${hintText}`;
+            hintDiv.style.cursor = 'default';
+        }
+
+        // Handle the answer click event
+        function handleAnswerClick(button, questionData, isCorrect) {
             if (button.disabled) return;
 
             totalQuestions++;
@@ -137,39 +188,43 @@
                 button.classList.add('incorrect');
             }
 
-            const correctAnswer = section.answers.find(answer => answer.correct);
+            const correctAnswer = questionData.answers.find(answer => answer.correct);
             const explanationDiv = document.createElement('div');
             explanationDiv.classList.add('explanation');
-            explanationDiv.textContent = `Explanation: ${section.explanation}`;
+            explanationDiv.textContent = `Explanation: ${questionData.explanation}`;
             button.parentElement.appendChild(explanationDiv);
-
-            setTimeout(() => {
-                nextSection();
-            }, 3000);
         }
 
-        function nextSection() {
-            if (currentSection < quizData.length - 1) {
-                currentSection++;
-                renderSection(currentSection);
+        // Go to the next question
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData[currentSection].questions.length - 1) {
+                currentQuestionIndex++;
+                renderSection();
             } else {
                 showScore();
             }
         }
 
+        // Display the score after completing the section
         function showScore() {
             const percentage = (score / totalQuestions) * 100;
             document.getElementById('score-container').textContent = `Your score: ${percentage.toFixed(2)}%`;
         }
 
-        // This function would be used to load questions dynamically from a JSON file
+        // Load questions from questions.json
         async function loadQuestions() {
             const response = await fetch('questions.json');
             const data = await response.json();
             quizData.push(...data);
-            renderSection(currentSection);
+            showMainMenu();
         }
 
+        // Show the main menu
+        function showMainMenu() {
+            document.getElementById('menu-container').style.display = 'block';
+        }
+
+        // Start by loading questions
         loadQuestions();
     </script>
 </body>
