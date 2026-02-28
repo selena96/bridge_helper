@@ -2,10 +2,17 @@
   "easy": [
     {
       "question": "Kako igraš ovu boju: KQJx Txx?",
-      "answers": ["Odigrati K", "Odigrati Q", "Odigrati J", "Odigrati T"],
+      "answers": ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
       "correctAnswer": 0,
       "hint": "Kreći sa najvišim kartama.",
       "explanation": "Treba da igraš K kao početnu kartu."
+    },
+    {
+      "question": "Kako igraš ovu boju: Axx Kxx?",
+      "answers": ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
+      "correctAnswer": 0,
+      "hint": "Počni sa najvišim kartama.",
+      "explanation": "Počni sa A, da proveriš distribuciju."
     }
   ],
   "medium": [
@@ -15,6 +22,13 @@
       "correctAnswer": 0,
       "hint": "Počni sa visokim kartama.",
       "explanation": "Počni sa A da bi proverio distribuciju."
+    },
+    {
+      "question": "Kako bi trebalo da igraš ovu boju: Qx Kxx?",
+      "answers": ["Odigraj Q", "Odigraj K", "Odigraj x", "Odigraj xx"],
+      "correctAnswer": 1,
+      "hint": "Počni sa K ako imaš kontrolu.",
+      "explanation": "Počni sa K kako bi bio siguran u distribuciju."
     }
   ],
   "hard": [
@@ -24,6 +38,13 @@
       "correctAnswer": 1,
       "hint": "Odigraj Q u sredini.",
       "explanation": "Q je najverovatnija karta koja će doneti dobitak."
+    },
+    {
+      "question": "Kako bi trebalo da igraš ovu boju: Axx Txx?",
+      "answers": ["Odigraj A", "Odigraj T", "Odigraj x", "Odigraj xx"],
+      "correctAnswer": 0,
+      "hint": "Počni sa A kartom.",
+      "explanation": "Počni sa A, kako bi proverio distribuciju."
     }
   ]
 }
