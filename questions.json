@@ -33,4 +33,15 @@
         "questions": [
             {
                 "question": "How many points are awarded for a trick in a bridge contract?",
-                "hint": "It's based on the type of contract you
+                "hint": "It's based on the type of contract you have.",
+                "answers": [
+                    {"text": "1", "correct": false},
+                    {"text": "10", "correct": false},
+                    {"text": "20", "correct": true},
+                    {"text": "50", "correct": false}
+                ],
+                "explanation": "A trick in a bridge contract typically scores 20 points."
+            }
+        ]
+    }
+]
