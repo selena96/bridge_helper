@@ -9,304 +9,250 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
+            color: #333;
         }
+
         header {
-            text-align: center;
-            background-color: #333;
-            color: white;
-            padding: 10px;
-        }
-        .menu-button {
-            padding: 15px;
-            font-size: 1.1em;
-            border: none;
-            cursor: pointer;
-            color: white;
-            border-radius: 5px;
-            width: 100%;
-            margin: 10px 0;
-        }
-        .menu-button:hover {
-            opacity: 0.8;
-        }
-        .quiz-section {
-            margin: 20px;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .green-section {
-            background-color: #c8e6c9;
-        }
-        .red-section {
-            background-color: #ffccbc;
-        }
-        .question {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
-        .answer-button {
-            display: block;
-            margin: 10px 0;
-            padding: 15px;
-            font-size: 1.1em;
-            background-color: #ddd;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .answer-button:hover {
-            background-color: #bdbdbd;
-        }
-        .answer-button.correct {
-            background-color: #388e3c;
-            color: white;
-        }
-        .answer-button.incorrect {
-            background-color: #d32f2f;
-            color: white;
-        }
-        .hint {
-            font-style: italic;
-            color: #757575;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-        .explanation {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e0f7fa;
-            border-radius: 5px;
-        }
-        .score {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-        .popup-content {
-            background-color: #333;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-        .popup button {
-            margin: 10px;
-            padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
         }
-        .popup button:hover {
+
+        .section-button {
+            padding: 15px;
+            margin: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            font-size: 18px;
+        }
+
+        .easy {
+            background-color: #4CAF50;
+        }
+
+        .difficult {
+            background-color: #f44336;
+        }
+
+        .question-container {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .answer-button {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .answer-button:hover {
+            background-color: #ddd;
+        }
+
+        .hint {
+            font-size: 14px;
+            color: #888;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .correct {
+            background-color: #4CAF50;
+        }
+
+        .incorrect {
+            background-color: #f44336;
+        }
+
+        .score-popup {
+            display: none;
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .score-popup button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .score-popup button:hover {
             background-color: #45a049;
         }
+
+        .hidden {
+            display: none;
+        }
+
         @media (max-width: 600px) {
-            body {
-                padding: 10px;
+            .section-button {
+                font-size: 16px;
             }
-            .quiz-section {
-                padding: 10px;
+            .answer-button {
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Bridge Quiz App</h1>
-    </header>
 
-    <!-- Main Menu -->
-    <div id="menu-container">
-        <!-- Buttons will be generated dynamically here -->
+<header>
+    <h1>Bridge Quiz App</h1>
+</header>
+
+<div id="main-menu">
+    <div id="section-1" class="section-button easy" onclick="startQuiz(1)">
+        Section 1 (Easy)
     </div>
-
-    <!-- Quiz Section -->
-    <div id="quiz-container"></div>
-
-    <!-- Pop-up for final score -->
-    <div id="score-popup" class="popup">
-        <div class="popup-content">
-            <h2>Quiz Completed!</h2>
-            <p id="final-score"></p>
-            <button onclick="showMainMenu()">Go to Main Menu</button>
-        </div>
+    <div id="section-2" class="section-button difficult" onclick="startQuiz(2)">
+        Section 2 (Difficult)
     </div>
+    <!-- More sections can be added here -->
+</div>
 
-    <script>
-        const quizData = []; // Holds the quiz data loaded from questions.json
-        let currentSection = 0;
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let totalQuestions = 0;
-        const sectionScores = [0, 0]; // Array to store score for each section
+<div id="quiz-container" class="hidden">
+    <div id="question-container" class="question-container">
+        <!-- Question content will be inserted here -->
+    </div>
+    <div id="hint-container" class="hint"></div>
+    <div id="next-button-container">
+        <button onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
 
-        // Function to start the quiz after choosing a section
-        function startSection(sectionIndex) {
-            currentSection = sectionIndex;
-            currentQuestionIndex = 0;
-            score = 0;
-            totalQuestions = 0;
-            document.getElementById('menu-container').style.display = 'none'; // Hide menu after selecting section
-            renderSection();
+<div id="score-popup" class="score-popup">
+    <h2>Your Score: <span id="score"></span>%</h2>
+    <button onclick="goToMainMenu()">Go to Main Menu</button>
+</div>
+
+<script>
+    let currentSection = null;
+    let questions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answeredQuestions = 0;
+
+    const sectionData = {
+        1: {
+            name: "Section 1 (Easy)",
+            colorClass: "easy"
+        },
+        2: {
+            name: "Section 2 (Difficult)",
+            colorClass: "difficult"
         }
+        // Add more sections if needed
+    };
 
-        // Render the quiz for the current section
-        function renderSection() {
-            const section = quizData[currentSection];
-            const questionData = section.questions[currentQuestionIndex];
+    function startQuiz(section) {
+        currentSection = section;
+        currentQuestionIndex = 0;
+        score = 0;
+        answeredQuestions = 0;
+        document.getElementById("main-menu").classList.add("hidden");
+        document.getElementById("quiz-container").classList.remove("hidden");
+        loadQuestions(section);
+        showQuestion();
+    }
 
-            const sectionDiv = document.createElement('div');
-            sectionDiv.classList.add('quiz-section');
-            sectionDiv.classList.add(section.difficulty === 'easy' ? 'green-section' : 'red-section');
-
-            const questionDiv = document.createElement('div');
-            questionDiv.classList.add('question');
-            questionDiv.textContent = questionData.question;
-
-            // Clickable hint
-            const hintDiv = document.createElement('div');
-            hintDiv.classList.add('hint');
-            hintDiv.textContent = "Click here for a hint";
-            hintDiv.onclick = () => showHint(hintDiv, questionData.hint);
-
-            sectionDiv.appendChild(questionDiv);
-            sectionDiv.appendChild(hintDiv);
-
-            // Answer buttons
-            questionData.answers.forEach((answer, index) => {
-                const button = document.createElement('button');
-                button.classList.add('answer-button');
-                button.textContent = answer.text;
-                button.onclick = () => handleAnswerClick(button, questionData, answer.correct);
-                sectionDiv.appendChild(button);
+    function loadQuestions(section) {
+        fetch('questions.json')
+            .then(response => response.json())
+            .then(data => {
+                questions = data[section];
             });
+    }
 
-            // Next button
-            const nextButton = document.createElement('button');
-            nextButton.classList.add('menu-button');
-            nextButton.textContent = 'Next Question';
-            nextButton.onclick = () => nextQuestion();
-            sectionDiv.appendChild(nextButton);
+    function showQuestion() {
+        const question = questions[currentQuestionIndex];
+        document.getElementById("question-container").innerHTML = `
+            <p>${question.question}</p>
+            <div>
+                <p><strong>North:</strong><br/> ${question.north}</p>
+                <p><strong>South:</strong><br/> ${question.south}</p>
+            </div>
+        `;
+        document.getElementById("hint-container").innerText = `Hint: ${question.hint}`;
+        document.getElementById("hint-container").onclick = () => showHint(question.hint);
+        createAnswerButtons(question);
+    }
 
-            document.getElementById('quiz-container').innerHTML = '';
-            document.getElementById('quiz-container').appendChild(sectionDiv);
+    function createAnswerButtons(question) {
+        const container = document.getElementById("next-button-container");
+        container.innerHTML = "";
+        question.answers.forEach((answer, index) => {
+            const button = document.createElement("button");
+            button.innerText = answer.text;
+            button.classList.add("answer-button");
+            button.onclick = () => checkAnswer(index, answer.correct, button);
+            container.appendChild(button);
+        });
+    }
+
+    function checkAnswer(index, isCorrect, button) {
+        if (answeredQuestions > 0) return; // Prevent changing answer after explanation is shown
+        
+        button.style.backgroundColor = isCorrect ? "#4CAF50" : "#f44336";
+        if (isCorrect) score += 1;
+        answeredQuestions++;
+        showExplanation(index, isCorrect);
+    }
+
+    function showExplanation(index, isCorrect) {
+        const explanation = questions[currentQuestionIndex].answers[index].explanation;
+        const explanationText = document.createElement("p");
+        explanationText.innerText = explanation;
+        document.getElementById("next-button-container").appendChild(explanationText);
+    }
+
+    function nextQuestion() {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            showQuestion();
+        } else {
+            showScore();
         }
+    }
 
-        // Show the hint when clicked
-        function showHint(hintDiv, hintText) {
-            hintDiv.textContent = `Hint: ${hintText}`;
-            hintDiv.style.cursor = 'default';
-        }
+    function showScore() {
+        const percentage = Math.round((score / questions.length) * 100);
+        document.getElementById("score").innerText = percentage;
+        document.getElementById("score-popup").classList.remove("hidden");
+    }
 
-        // Handle the answer click event
-        function handleAnswerClick(button, questionData, isCorrect) {
-            if (button.disabled) return;
+    function goToMainMenu() {
+        document.getElementById("score-popup").classList.add("hidden");
+        document.getElementById("quiz-container").classList.add("hidden");
+        document.getElementById("main-menu").classList.remove("hidden");
+    }
 
-            totalQuestions++;
-            button.disabled = true;
+    function showHint(hint) {
+        alert(hint);
+    }
+</script>
 
-            if (isCorrect) {
-                button.classList.add('correct');
-                score++;
-            } else {
-                button.classList.add('incorrect');
-            }
-
-            const correctAnswer = questionData.answers.find(answer => answer.correct);
-            const explanationDiv = document.createElement('div');
-            explanationDiv.classList.add('explanation');
-            explanationDiv.textContent = `Explanation: ${questionData.explanation}`;
-            button.parentElement.appendChild(explanationDiv);
-        }
-
-        // Go to the next question
-        function nextQuestion() {
-            if (currentQuestionIndex < quizData[currentSection].questions.length - 1) {
-                currentQuestionIndex++;
-                renderSection();
-            } else {
-                endSection();
-            }
-        }
-
-        // End the section and show score for that section
-        function endSection() {
-            sectionScores[currentSection] = score;
-            updateMainMenu();
-            showPopup();
-        }
-
-        // Update score on the main menu
-        function updateMainMenu() {
-            document.getElementById('easy-score').textContent = `${sectionScores[0]} / ${quizData[0].questions.length}`;
-            document.getElementById('hard-score').textContent = `${sectionScores[1]} / ${quizData[1].questions.length}`;
-        }
-
-        // Show the final score in a pop-up
-        function showPopup() {
-            const finalScore = (score / totalQuestions) * 100;
-            document.getElementById('final-score').textContent = `Your final score: ${finalScore.toFixed(2)}%`;
-            document.getElementById('score-popup').style.display = 'flex';
-        }
-
-        // Go back to the main menu
-        function showMainMenu() {
-            document.getElementById('menu-container').style.display = 'block'; // Show the menu again
-            document.getElementById('score-popup').style.display = 'none'; // Hide the pop-up
-            resetQuiz();
-        }
-
-        // Reset the quiz state and show only the main menu with scores
-        function resetQuiz() {
-            currentSection = 0;
-            currentQuestionIndex = 0;
-            score = 0;
-            totalQuestions = 0;
-            document.getElementById('quiz-container').innerHTML = ''; // Clear any questions or answers
-        }
-
-        // Load questions from questions.json
-        async function loadQuestions() {
-            try {
-                const response = await fetch('questions.json');
-                const data = await response.json();
-                quizData.push(...data); // Push the data into the quizData array
-                generateMenu(); // Generate the menu after loading the data
-            } catch (error) {
-                console.error('Error loading questions:', error);
-            }
-        }
-
-        // Generate the menu dynamically with color-based buttons
-        function generateMenu() {
-            const menuContainer = document.getElementById('menu-container');
-            quizData.forEach((section, index) => {
-                const button = document.createElement('button');
-                button.classList.add('menu-button');
-                button.textContent = `${section.title} `;
-                button.style.backgroundColor = section.color === 'green' ? '#4CAF50' : '#f44336'; // Green for easy, Red for hard
-                button.onclick = () => startSection(index);
-                menuContainer.appendChild(button);
-            });
-        }
-
-        // Start by loading questions
-        loadQuestions();
-    </script>
 </body>
 </html>
