@@ -60,6 +60,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      position: relative;
     }
 
     .category-btn.easy {
@@ -72,6 +73,13 @@
 
     .category-btn.hard {
       background-color: #dc3545;
+    }
+
+    .score-percentage {
+      position: absolute;
+      right: 10px;
+      font-size: 14px;
+      color: #fff;
     }
 
     #answer-container button {
@@ -131,6 +139,7 @@
     let currentQuestionIndex = 0;
     let score = 0;
     let quizData = [];
+    let categoryScores = {};  // To hold category scores
 
     document.addEventListener('DOMContentLoaded', () => {
       loadCategories();
@@ -142,17 +151,26 @@
         .then(data => {
           quizData = data.categories;
           const categoryContainer = document.getElementById('category-container');
-          quizData.forEach(category => {
+          categoryContainer.innerHTML = '';  // Clear previous categories
+          
+          quizData.forEach((category, index) => {
             const button = document.createElement('button');
             button.textContent = category.name;
+
+            // Check if category has been completed
+            if (categoryScores[category.name]) {
+              const percentage = (categoryScores[category.name].score / categoryScores[category.name].totalQuestions) * 100;
+              button.innerHTML = `${category.name} <span class="score-percentage">${Math.round(percentage)}%</span>`;
+            }
+            
             button.classList.add('category-btn', category.difficulty);
-            button.onclick = () => startQuiz(category);
+            button.onclick = () => startQuiz(category, index);
             categoryContainer.appendChild(button);
           });
         });
     }
 
-    function startQuiz(category) {
+    function startQuiz(category, index) {
       currentCategory = category;
       currentQuestionIndex = 0;
       score = 0;
@@ -203,6 +221,12 @@
     };
 
     function endQuiz() {
+      // Save score to categoryScores
+      categoryScores[currentCategory.name] = {
+        score: score,
+        totalQuestions: currentCategory.questions.length
+      };
+
       document.getElementById('quiz-section').style.display = 'none';
       document.getElementById('score-section').style.display = 'block';
       document.getElementById('final-score').textContent = `${score} / ${currentCategory.questions.length}`;
@@ -211,7 +235,7 @@
     document.getElementById('go-to-main-menu').onclick = () => {
       document.getElementById('score-section').style.display = 'none';
       document.getElementById('category-container').style.display = 'block';
-      loadCategories();  // Optionally reload categories in case any changes were made.
+      loadCategories();  // Reload categories with updated scores
     };
   </script>
 </body>
