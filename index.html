@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Bridge Helper - Mobile Friendly Quiz</title>
+<title>Bridge Helper - Quiz</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
@@ -11,15 +11,15 @@ body {
   padding: 10px;
   background: #f9f9f9;
 }
-h1 {text-align: center; font-size: 1.8em; margin-bottom: 20px;}
-#home {text-align:center;}
+h1{text-align:center; font-size:1.8em; margin-bottom:20px;}
+#home{text-align:center;}
 .section-btn {
   display:block;
   margin:10px auto;
   padding:15px;
-  width: 90%;
-  max-width: 300px;
-  font-size: 1em;
+  width:90%;
+  max-width:300px;
+  font-size:1em;
   background:#007bff;
   color:white;
   border:none;
@@ -44,7 +44,7 @@ h1 {text-align: center; font-size: 1.8em; margin-bottom: 20px;}
 #nextBtn {
   margin-top:15px;
   padding:12px;
-  width: 50%;
+  width:50%;
   max-width:200px;
   display:block;
   margin-left:auto;
@@ -56,12 +56,31 @@ h1 {text-align: center; font-size: 1.8em; margin-bottom: 20px;}
   color:white;
 }
 #nextBtn:disabled {background:#ccc; cursor:default;}
+#backBtn {
+  margin-top:10px;
+  padding:12px;
+  width:50%;
+  max-width:200px;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:1em;
+  border:none;
+  border-radius:6px;
+  background:#6c757d;
+  color:white;
+  cursor:pointer;
+}
+#backBtn:hover {background:#5a6268;}
 .progress {height:12px; background:#e0e0e0; border-radius:6px; margin-bottom:20px; overflow:hidden;}
 .progress-bar {height:100%; background:#007bff; width:0%;}
 #results {display:none; text-align:center;}
 #score {font-size:1.2em; margin-bottom:15px;}
 #retryBtn {padding:12px 20px; font-size:1em; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer;}
 #retryBtn:hover {background:#0056b3;}
+#hintBtn {margin-top:10px; padding:8px 12px; font-size:0.9em; border:none; border-radius:5px; background:#ffc107; color:#212529; cursor:pointer;}
+#hintBtn:hover {background:#e0a800;}
+#explanation {margin-top:10px; padding:10px; border-radius:6px; background:#fff3cd; border-left:4px solid #ffeeba; display:none;}
 </style>
 </head>
 <body>
@@ -75,7 +94,10 @@ h1 {text-align: center; font-size: 1.8em; margin-bottom: 20px;}
 <div id="quiz-container">
   <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
   <div id="quiz"></div>
+  <div id="explanation"></div>
+  <button id="hintBtn" style="display:none;">Show Hint</button>
   <button id="nextBtn" disabled>Next</button>
+  <button id="backBtn">Back to Menu</button>
 </div>
 
 <div id="results">
@@ -97,13 +119,16 @@ const quizContainer = document.getElementById("quiz-container");
 const results = document.getElementById("results");
 const quizDiv = document.getElementById("quiz");
 const nextBtn = document.getElementById("nextBtn");
+const backBtn = document.getElementById("backBtn");
+const retryBtn = document.getElementById("retryBtn");
 const progressBar = document.getElementById("progress-bar");
 const scoreText = document.getElementById("score");
-const retryBtn = document.getElementById("retryBtn");
+const explanationDiv = document.getElementById("explanation");
+const hintBtn = document.getElementById("hintBtn");
 
-// Fetch questions from JSON
+// Fetch questions
 fetch("questions.json")
-.then(response => response.json())
+.then(res => res.json())
 .then(data => {
   questionBank = data;
   for (let section in questionBank) {
@@ -111,10 +136,7 @@ fetch("questions.json")
     btn.className = "section-btn";
     btn.innerText = section;
     btn.dataset.section = section;
-    btn.addEventListener("click", () => {
-      currentSection = section;
-      startSection();
-    });
+    btn.addEventListener("click", () => { currentSection = section; startSection(); });
     home.appendChild(btn);
   }
 });
@@ -133,10 +155,19 @@ function loadQuestion(){
   const q = questions[currentIndex];
   quizDiv.innerHTML = `<div class="question"><p>${q.question}</p>` +
     q.options.map((opt,i)=>`<div class="option" data-index="${i}">${opt}</div>`).join("") +
-    `</div><div id="feedback" class="feedback hidden"></div>`;
+    `</div>`;
+  explanationDiv.style.display = "none";
+  explanationDiv.innerText = q.explanation || "";
   selectedOption = null;
   nextBtn.disabled = true;
-  updateProgress();
+
+  // Show hint if available
+  if(q.hint){
+    hintBtn.style.display = "block";
+    hintBtn.onclick = () => alert(q.hint);
+  } else {
+    hintBtn.style.display = "none";
+  }
 
   document.querySelectorAll(".option").forEach(opt=>{
     opt.addEventListener("click",()=>{
@@ -147,22 +178,23 @@ function loadQuestion(){
       nextBtn.disabled = false;
     });
   });
+
+  updateProgress();
 }
 
 function showFeedback(){
-  const feedback = document.getElementById("feedback");
-  if(selectedOption === questions[currentIndex].correct){
-    feedback.innerText = "✅ Correct!";
-    feedback.className = "feedback correct";
+  const q = questions[currentIndex];
+  explanationDiv.style.display = "block";
+  explanationDiv.innerText = q.explanation || "";
+  if(selectedOption === q.correct){
+    explanationDiv.className = "feedback correct";
     score++;
   } else {
-    feedback.innerText = "❌ Incorrect!";
-    feedback.className = "feedback incorrect";
+    explanationDiv.className = "feedback incorrect";
   }
-  feedback.classList.remove("hidden");
 }
 
-nextBtn.addEventListener("click",()=>{
+nextBtn.addEventListener("click", ()=>{
   currentIndex++;
   if(currentIndex < questions.length) loadQuestion();
   else showResults();
@@ -175,6 +207,14 @@ function showResults(){
 }
 
 retryBtn.addEventListener("click", startSection);
+backBtn.addEventListener("click", ()=>{
+  quizContainer.style.display = "none";
+  results.style.display = "none";
+  home.style.display = "block";
+  currentIndex = 0;
+  score = 0;
+  selectedOption = null;
+});
 
 function updateProgress(){
   const percent = (currentIndex / questions.length) * 100;
