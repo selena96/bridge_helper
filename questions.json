@@ -1,81 +1,38 @@
-{
-  "Broj štihova": {
-    "color": "section-green",
-    "questions": [
-      {
-        "question": "Koliko štihova sledeća kombinacija može da odnese?",
-        "hand": {
-          "north": "KQJx",
-          "south": "Txx"
-        },
-        "options": [
-          "0",
-          "3",
-          "4",
-          "6"
+[
+    {
+        "difficulty": "easy",
+        "question": "What is the most common suit in bridge?",
+        "hint": "It's one of the four suits.",
+        "answers": [
+            {"text": "Hearts", "correct": false},
+            {"text": "Clubs", "correct": false},
+            {"text": "Spades", "correct": true},
+            {"text": "Diamonds", "correct": false}
         ],
-        "correct": 3,
-        "explanation": "Nakon što izbijemo asa kod protivnika, recimo igranjem male karte i desetke, ostaće nam K, Q i J koje su sledeće najveće karte.",
-        "hint": "Razmisli o žrtvovanju jednog štiha."
-      },
-      {
-        "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo prelaza.",
-        "hand": {
-          "north": "AKQ",
-          "south": "Jxxx"
-        },
-        "options": [
-          "3",
-          "4",
-          "5",
-          "7"
+        "explanation": "Spades is the highest-ranking suit in bridge."
+    },
+    {
+        "difficulty": "easy",
+        "question": "What is the term for a hand with no face cards or tens?",
+        "hint": "This is a very weak hand.",
+        "answers": [
+            {"text": "Balanced Hand", "correct": false},
+            {"text": "Void Hand", "correct": false},
+            {"text": "Garbage Hand", "correct": true},
+            {"text": "Strong Hand", "correct": false}
         ],
-        "correct": 4,
-        "explanation": "Nakon što odnesemo štih sa A, pa K, pa Q (ne nužno u tom redosledu), ostaće nam još J da odnese četvrti štih.",
-        "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
-      }
-    ]
-  },
-  "Drugi štihovi": {
-    "color": "section-orange",
-    "questions": [
-      {
-        "question": "Koliko štihova sledeća kombinacija može da odnese?",
-        "hand": {
-          "north": "Axx",
-          "south": "Kxx"
-        },
-        "options": [
-          "0",
-          "1",
-          "2",
-          "3"
+        "explanation": "A Garbage Hand is one with very weak cards, lacking face cards and tens."
+    },
+    {
+        "difficulty": "hard",
+        "question": "How many points are awarded for a trick in a bridge contract?",
+        "hint": "It's based on the type of contract you have.",
+        "answers": [
+            {"text": "1", "correct": false},
+            {"text": "10", "correct": false},
+            {"text": "20", "correct": true},
+            {"text": "50", "correct": false}
         ],
-        "correct": 2,
-        "explanation": "Iako imamo samo 3 karte, to će biti dovoljno da se odnese 2 štihova sa A i K.",
-        "hint": "Razmisli o tome koje karte mogu preći."
-      }
-    ]
-  },
-  "Treći štihovi": {
-    "color": "section-red",
-    "questions": [
-      {
-        "question": "Koliko štihova sledeća kombinacija može da odnese?",
-        "hand": {
-          "north": "Qx",
-          "south": "Tx"
-        },
-        "options": [
-          "0",
-          "1",
-          "2",
-          "3"
-        ],
-        "correct": 1,
-        "explanation": "Možemo da odnesemo samo jedan štih, uzimajući Q iz severa i T iz juga.",
-        "hint": "Razmisli o snazi karata."
-      }
-    ]
-  }
-}
+        "explanation": "A trick in a bridge contract typically scores 20 points."
+    }
+]
