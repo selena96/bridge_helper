@@ -1,50 +1,29 @@
 {
   "easy": [
     {
-      "question": "Koja je boja na vrhu mosta?",
-      "answers": ["Plava", "Crvena", "Zelena", "Žuta"],
-      "correctAnswer": 1,
-      "explanation": "Boja na vrhu mosta je crvena.",
-      "hint": "Pogledajte boje na vrhu mosta."
-    },
-    {
-      "question": "Šta je najvažniji deo bridža?",
-      "answers": ["Skor", "Rukovanje", "Tramp", "Kugla"],
-      "correctAnswer": 2,
-      "explanation": "Tramp je ključna strategija u bridžu.",
-      "hint": "To je faza igre kada odlučujete o važnosti boje."
-    },
-    {
-      "question": "Kako se zove partner u igri bridž?",
-      "answers": ["Takmičar", "Partner", "Protivnik", "Kolega"],
-      "correctAnswer": 2,
-      "explanation": "Partner je igrač sa kojim sarađujete.",
-      "hint": "To je igrač sa druge strane stola."
+      "question": "Kako igraš ovu boju: KQJx Txx?",
+      "answers": ["Odigrati K", "Odigrati Q", "Odigrati J", "Odigrati T"],
+      "correctAnswer": 0,
+      "hint": "Kreći sa najvišim kartama.",
+      "explanation": "Treba da igraš K kao početnu kartu."
     }
   ],
   "medium": [
     {
-      "question": "Koja boja je najjača u bridžu?",
-      "answers": ["Pik", "Tref", "Srce", "Karo"],
-      "correctAnswer": 1,
-      "explanation": "Pik je najjača boja u igri bridž.",
-      "hint": "Razmislite o klasifikaciji boja prema vrednosti."
-    },
-    {
-      "question": "Koja karta ima najvišu vrednost?",
-      "answers": ["Kralj", "Deset", "As", "Dama"],
-      "correctAnswer": 3,
-      "explanation": "As je najjača karta u bridžu.",
-      "hint": "Najveća vrednost dolazi od prve karte u boji."
+      "question": "Kako bi trebalo da igraš ovu boju: Axx Kxx?",
+      "answers": ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
+      "correctAnswer": 0,
+      "hint": "Počni sa visokim kartama.",
+      "explanation": "Počni sa A da bi proverio distribuciju."
     }
   ],
   "hard": [
     {
-      "question": "Koje su osnovne strategije za igru na nivou majstora?",
-      "answers": ["Zatvoreni sklop", "Ofenzivni napad", "Zamena boje", "Balanse karte"],
-      "correctAnswer": 2,
-      "explanation": "Zamena boje je ključna za dobijanje poena.",
-      "hint": "Pokušajte da balansirate karte u poslednjim krugovima."
+      "question": "Kako bi trebalo da igraš ovu boju: KQx T9x?",
+      "answers": ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
+      "correctAnswer": 1,
+      "hint": "Odigraj Q u sredini.",
+      "explanation": "Q je najverovatnija karta koja će doneti dobitak."
     }
   ]
 }
