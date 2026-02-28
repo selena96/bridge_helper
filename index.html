@@ -230,9 +230,10 @@
 
         // Go back to the main menu
         function goToMainMenu() {
-            // Reset the quiz state
+            // Reset the quiz state completely
             document.querySelector('.main-menu').style.display = 'block';
             document.querySelector('#score').style.display = 'none';
+            document.querySelector('#question-container').style.display = 'none';
 
             // Update category buttons with scores
             updateCategoryButton('easy');
