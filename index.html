@@ -123,10 +123,10 @@
             <h3 id="question-text"></h3>
             <div id="hint" class="hint" onclick="showHint()">Pokaži hint</div>
 
-            <button id="answer1" class="answer-button" onclick="checkAnswer(1)"></button>
-            <button id="answer2" class="answer-button" onclick="checkAnswer(2)"></button>
-            <button id="answer3" class="answer-button" onclick="checkAnswer(3)"></button>
-            <button id="answer4" class="answer-button" onclick="checkAnswer(4)"></button>
+            <button id="answer1" class="answer-button" onclick="selectAnswer(1)"></button>
+            <button id="answer2" class="answer-button" onclick="selectAnswer(2)"></button>
+            <button id="answer3" class="answer-button" onclick="selectAnswer(3)"></button>
+            <button id="answer4" class="answer-button" onclick="selectAnswer(4)"></button>
 
             <div class="explanation" id="explanation"></div>
 
@@ -144,6 +144,7 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let currentCategory = '';
+        let selectedAnswer = null;
         let categoryScores = { easy: null, medium: null, hard: null };
 
         // Fetch questions from questions.json
@@ -155,10 +156,10 @@
 
         // Start quiz for a selected category
         function startQuiz(category) {
-            // Reset the quiz state for each section
             currentCategory = category;
             currentQuestionIndex = 0;
             score = 0;
+            selectedAnswer = null; // Reset selected answer
             document.querySelector('.main-menu').style.display = 'none';
             document.querySelector('#question-container').style.display = 'block';
             document.querySelector('#score').style.display = 'none';
@@ -179,8 +180,12 @@
 
             document.querySelector('#explanation').textContent = '';
             document.querySelector('#next-button').style.display = 'none';
-            document.querySelectorAll('.answer-button').forEach(button => button.classList.remove('green', 'red'));
+            document.querySelectorAll('.answer-button').forEach(button => {
+                button.classList.remove('green', 'red'); // Reset colors
+                button.disabled = false; // Enable buttons
+            });
 
+            selectedAnswer = null; // Reset selected answer
             document.querySelector('#hint').style.display = 'block';
         }
 
@@ -191,15 +196,22 @@
             document.querySelector('#explanation').textContent = question.hint;
         }
 
-        // Check if the selected answer is correct
-        function checkAnswer(answerIndex) {
+        // Handle answer selection
+        function selectAnswer(answerIndex) {
+            if (selectedAnswer !== null) {
+                // Remove previously selected answer style
+                document.querySelector(`#answer${selectedAnswer}`).classList.remove('green', 'red');
+            }
+
+            selectedAnswer = answerIndex; // Set the new selected answer
+
             const categoryQuestions = questions[currentCategory];
             const question = categoryQuestions[currentQuestionIndex];
             const correctAnswer = question.correctAnswer;
 
+            // Mark the selected answer
             if (answerIndex === correctAnswer) {
                 document.querySelector(`#answer${answerIndex}`).classList.add('green');
-                score++;
             } else {
                 document.querySelector(`#answer${answerIndex}`).classList.add('red');
                 document.querySelector(`#answer${correctAnswer}`).classList.add('green');
@@ -207,7 +219,7 @@
 
             document.querySelector('#explanation').textContent = question.explanation;
             document.querySelector('#next-button').style.display = 'block';
-            document.querySelectorAll('.answer-button').forEach(button => button.disabled = true);
+            document.querySelectorAll('.answer-button').forEach(button => button.disabled = true); // Disable buttons after answer is selected
         }
 
         // Move to the next question or show final score
@@ -233,6 +245,7 @@
             // Reset the quiz state completely
             currentQuestionIndex = 0;
             score = 0;
+            selectedAnswer = null; // Reset selected answer
             document.querySelector('.main-menu').style.display = 'block';
             document.querySelector('#score').style.display = 'none';
             document.querySelector('#question-container').style.display = 'none';
