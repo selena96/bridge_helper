@@ -144,6 +144,7 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let currentCategory = '';
+        let categoryScores = { easy: 0, medium: 0, hard: 0 };
 
         // Fetch questions from questions.json
         fetch('questions.json')
@@ -220,6 +221,7 @@
         function showFinalScore() {
             document.querySelector('#score').style.display = 'block';
             document.querySelector('#final-score').textContent = `${score} / ${questions[currentCategory].length}`;
+            categoryScores[currentCategory] = score; // Save the score for the current category
             document.querySelector('#question-container').style.display = 'none';
         }
 
@@ -237,9 +239,9 @@
         // Update category buttons with score next to them
         function updateCategoryButton(category) {
             const button = document.querySelector(`.category-button.${category}`);
-            if (score > 0 && questions[category]) {
+            if (categoryScores[category] > 0) {
                 button.innerHTML = `${category.charAt(0).toUpperCase() + category.slice(1)}`;
-                button.innerHTML += `<div class="score-text">${score} / ${questions[category].length}</div>`;
+                button.innerHTML += `<div class="score-text">${categoryScores[category]} / ${questions[category].length}</div>`;
             }
         }
     </script>
