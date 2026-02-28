@@ -144,7 +144,7 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let currentCategory = '';
-        let categoryScores = { easy: 0, medium: 0, hard: 0 };
+        let categoryScores = { easy: null, medium: null, hard: null };
 
         // Fetch questions from questions.json
         fetch('questions.json')
@@ -239,7 +239,7 @@
         // Update category buttons with score next to them
         function updateCategoryButton(category) {
             const button = document.querySelector(`.category-button.${category}`);
-            if (categoryScores[category] > 0) {
+            if (categoryScores[category] !== null) {
                 button.innerHTML = `${category.charAt(0).toUpperCase() + category.slice(1)}`;
                 button.innerHTML += `<div class="score-text">${categoryScores[category]} / ${questions[category].length}</div>`;
             }
