@@ -47,6 +47,19 @@
       margin-top: 5px;
     }
 
+    /* Color coding for sections */
+    .section-green {
+      background-color: #28a745;
+    }
+
+    .section-orange {
+      background-color: #fd7e14;
+    }
+
+    .section-red {
+      background-color: #dc3545;
+    }
+
     #quiz-container {
       display: none;
       text-align: center;
@@ -284,117 +297,21 @@
         btn.className = "section-btn";
         btn.innerText = section;
         btn.dataset.section = section;
+
+        // Color the sections based on their score
+        const sectionScore = sectionScores[section];
+        if (sectionScore !== undefined) {
+          if (sectionScore >= 80) {
+            btn.classList.add('section-green');
+          } else if (sectionScore >= 50) {
+            btn.classList.add('section-orange');
+          } else {
+            btn.classList.add('section-red');
+          }
+        }
+
         btn.addEventListener("click", () => {
           currentSection = section;
           startSection();
         });
-        home.appendChild(btn);
-
-        if (sectionScores[section] !== undefined) {
-          const scoreDiv = document.createElement("div");
-          scoreDiv.className = "section-score";
-          scoreDiv.innerText = `Last score: ${sectionScores[section]}%`;
-          btn.appendChild(scoreDiv);
-        }
-      }
-    }
-
-    function startSection() {
-      home.style.display = "none";
-      results.style.display = "none";
-      quizContainer.style.display = "block";
-      questions = questionBank[currentSection];
-      currentIndex = 0;
-      score = 0;
-      loadQuestion();
-    }
-
-    function loadQuestion() {
-      const q = questions[currentIndex];
-
-      // Create the HTML for the question
-      quizDiv.innerHTML = `
-        <div class="question">
-          <p>${q.question}</p>
-          <div class="hand">
-            <strong>North:</strong> ${q.hand.north}<br>
-            <strong>South:</strong> ${q.hand.south}
-          </div>
-          <div class="options">
-            ${q.options.map((opt, i) => `<div class="option" data-index="${i}">${opt}</div>`).join("")}
-          </div>
-        </div>`;
-
-      explanationDiv.style.display = "none";
-      explanationDiv.innerText = q.explanation || "";
-      selectedOption = null;
-      nextBtn.disabled = true;
-
-      if (q.hint) {
-        hintBtn.style.display = "block";
-        hintBtn.onclick = () => alert(q.hint);
-      } else {
-        hintBtn.style.display = "none";
-      }
-
-      document.querySelectorAll(".option").forEach(opt => {
-        opt.addEventListener("click", () => {
-          document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
-          opt.classList.add("selected");
-          selectedOption = parseInt(opt.dataset.index);
-          showFeedback();
-          nextBtn.disabled = false;
-        });
-      });
-
-      updateProgress();
-    }
-
-    function showFeedback() {
-      const q = questions[currentIndex];
-      explanationDiv.style.display = "block";
-      explanationDiv.innerText = q.explanation || "";
-      if (selectedOption === q.correct) {
-        explanationDiv.className = "feedback correct";
-        score++;
-      } else {
-        explanationDiv.className = "feedback incorrect";
-      }
-    }
-
-    nextBtn.addEventListener("click", () => {
-      currentIndex++;
-      if (currentIndex < questions.length) loadQuestion();
-      else showResults();
-    });
-
-    function showResults() {
-      quizContainer.style.display = "none";
-      results.style.display = "block";
-      const percent = Math.round((score / questions.length) * 100);
-      sectionScores[currentSection] = percent;
-      scoreText.innerText = `You scored ${score} / ${questions.length} (${percent}%) in ${currentSection}`;
-    }
-
-    menuBtn.addEventListener("click", () => {
-      results.style.display = "none";
-      home.style.display = "block";
-      loadQuestions(); // reload with fresh scores
-    });
-
-    backBtn.addEventListener("click", () => {
-      quizContainer.style.display = "none";
-      results.style.display = "none";
-      home.style.display = "block";
-    });
-
-    function updateProgress() {
-      const percent = (currentIndex / questions.length) * 100;
-      progressBar.style.width = percent + "%";
-    }
-
-    // Initial load
-    loadQuestions();
-  </script>
-</body>
-</html>
+        home
