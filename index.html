@@ -2,59 +2,90 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Bridge Helper - Fancy Quiz</title>
+<title>Bridge Helper - Mobile Friendly Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body { font-family: Arial; max-width:700px; margin:40px auto; padding:20px; background:#f9f9f9; }
-  h1{text-align:center;}
-  .section-btn {margin:10px; padding:10px 20px; cursor:pointer; background:#007bff; color:white; border:none; border-radius:5px;}
-  .section-btn:hover {background:#0056b3;}
-  .question {margin-bottom:20px;}
-  .option {margin:5px 0; padding:10px; border:1px solid #ccc; border-radius:5px; cursor:pointer;}
-  .option:hover {background:#f0f0f0;}
-  .selected {background:#d0ebff; border-color:#007bff;}
-  .feedback {margin-top:10px; padding:10px; border-radius:5px;}
-  .correct {background:#d4edda; border-left:4px solid #28a745;}
-  .incorrect {background:#f8d7da; border-left:4px solid #dc3545;}
-  #nextBtn {margin-top:15px; padding:8px 16px; cursor:pointer; border:none; border-radius:5px; background:#28a745; color:white;}
-  #nextBtn:disabled {background:#ccc; cursor:default;}
-  .progress {height:10px; background:#e0e0e0; border-radius:5px; margin-bottom:20px; overflow:hidden;}
-  .progress-bar {height:100%; background:#007bff; width:0%;}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 10px;
+  background: #f9f9f9;
+}
+h1 {text-align: center; font-size: 1.8em; margin-bottom: 20px;}
+#home {text-align:center;}
+.section-btn {
+  display:block;
+  margin:10px auto;
+  padding:15px;
+  width: 90%;
+  max-width: 300px;
+  font-size: 1em;
+  background:#007bff;
+  color:white;
+  border:none;
+  border-radius:6px;
+}
+.section-btn:hover {background:#0056b3;}
+#quiz-container {display:none;}
+.question {margin-bottom:20px;}
+.option {
+  padding:12px;
+  margin:5px 0;
+  border:1px solid #ccc;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:1em;
+}
+.option:hover {background:#e0f0ff;}
+.selected {background:#d0ebff; border-color:#007bff;}
+.feedback {margin-top:10px; padding:10px; border-radius:6px;}
+.correct {background:#d4edda; border-left:4px solid #28a745;}
+.incorrect {background:#f8d7da; border-left:4px solid #dc3545;}
+#nextBtn {
+  margin-top:15px;
+  padding:12px;
+  width: 50%;
+  max-width:200px;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:1em;
+  border:none;
+  border-radius:6px;
+  background:#28a745;
+  color:white;
+}
+#nextBtn:disabled {background:#ccc; cursor:default;}
+.progress {height:12px; background:#e0e0e0; border-radius:6px; margin-bottom:20px; overflow:hidden;}
+.progress-bar {height:100%; background:#007bff; width:0%;}
+#results {display:none; text-align:center;}
+#score {font-size:1.2em; margin-bottom:15px;}
+#retryBtn {padding:12px 20px; font-size:1em; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer;}
+#retryBtn:hover {background:#0056b3;}
 </style>
 </head>
 <body>
 
 <h1>🃏 Bridge Helper</h1>
+
 <div id="home">
   <h2>Select a Section</h2>
-  <button class="section-btn" data-section="Basics">Basics</button>
-  <button class="section-btn" data-section="Bidding">Bidding</button>
 </div>
 
-<div id="quiz-container" class="hidden">
+<div id="quiz-container">
   <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
   <div id="quiz"></div>
   <button id="nextBtn" disabled>Next</button>
 </div>
 
-<div id="results" class="hidden">
+<div id="results">
   <h2>Results</h2>
   <p id="score"></p>
   <button id="retryBtn">Retry Section</button>
 </div>
 
 <script>
-// Questions by section
-const questionBank = {
-  "Basics":[
-    {question:"How many HCP is an Ace worth?", options:["2","3","4","5"], correct:2},
-    {question:"How many HCP is a King worth?", options:["2","3","4","5"], correct:1}
-  ],
-  "Bidding":[
-    {question:"Partner opens 1NT. You hold ♠KQ74 ♥83 ♦A762 ♣KQ5. What do you bid?", options:["Pass","2♣ Stayman","2NT","3NT"], correct:1},
-    {question:"You hold ♠AQT7 ♥KQ8 ♦J53 ♣62. What is your opening bid?", options:["1♠","1NT","1♥","2♠"], correct:0}
-  ]
-};
-
+let questionBank = {};
 let currentSection = "";
 let questions = [];
 let currentIndex = 0;
@@ -70,21 +101,28 @@ const progressBar = document.getElementById("progress-bar");
 const scoreText = document.getElementById("score");
 const retryBtn = document.getElementById("retryBtn");
 
-// Section buttons
-document.querySelectorAll(".section-btn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    currentSection = btn.dataset.section;
-    startSection();
-  });
+// Fetch questions from JSON
+fetch("questions.json")
+.then(response => response.json())
+.then(data => {
+  questionBank = data;
+  for (let section in questionBank) {
+    const btn = document.createElement("button");
+    btn.className = "section-btn";
+    btn.innerText = section;
+    btn.dataset.section = section;
+    btn.addEventListener("click", () => {
+      currentSection = section;
+      startSection();
+    });
+    home.appendChild(btn);
+  }
 });
 
-// Retry button
-retryBtn.addEventListener("click",()=>startSection());
-
 function startSection(){
-  home.classList.add("hidden");
-  results.classList.add("hidden");
-  quizContainer.classList.remove("hidden");
+  home.style.display = "none";
+  results.style.display = "none";
+  quizContainer.style.display = "block";
   questions = questionBank[currentSection];
   currentIndex = 0;
   score = 0;
@@ -94,12 +132,12 @@ function startSection(){
 function loadQuestion(){
   const q = questions[currentIndex];
   quizDiv.innerHTML = `<div class="question"><p>${q.question}</p>` +
-    q.options.map((opt,i)=>`<div class="option" data-index="${i}">${opt}</div>`).join("") + `</div>` +
-    `<div id="feedback" class="feedback hidden"></div>`;
+    q.options.map((opt,i)=>`<div class="option" data-index="${i}">${opt}</div>`).join("") +
+    `</div><div id="feedback" class="feedback hidden"></div>`;
   selectedOption = null;
   nextBtn.disabled = true;
   updateProgress();
-  
+
   document.querySelectorAll(".option").forEach(opt=>{
     opt.addEventListener("click",()=>{
       document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
@@ -115,29 +153,31 @@ function showFeedback(){
   const feedback = document.getElementById("feedback");
   if(selectedOption === questions[currentIndex].correct){
     feedback.innerText = "✅ Correct!";
-    feedback.className="feedback correct";
+    feedback.className = "feedback correct";
     score++;
   } else {
     feedback.innerText = "❌ Incorrect!";
-    feedback.className="feedback incorrect";
+    feedback.className = "feedback incorrect";
   }
   feedback.classList.remove("hidden");
 }
 
 nextBtn.addEventListener("click",()=>{
   currentIndex++;
-  if(currentIndex<questions.length) loadQuestion();
+  if(currentIndex < questions.length) loadQuestion();
   else showResults();
 });
 
 function showResults(){
-  quizContainer.classList.add("hidden");
-  results.classList.remove("hidden");
+  quizContainer.style.display = "none";
+  results.style.display = "block";
   scoreText.innerText = `You scored ${score} / ${questions.length} in ${currentSection}`;
 }
 
+retryBtn.addEventListener("click", startSection);
+
 function updateProgress(){
-  const percent = ((currentIndex)/questions.length)*100;
+  const percent = (currentIndex / questions.length) * 100;
   progressBar.style.width = percent + "%";
 }
 </script>
