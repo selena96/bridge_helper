@@ -7,30 +7,46 @@
         "south": "Txx"
       },
       "options": [
-        "4",
-        "5",
+        "0",
         "3",
-        "2"
+        "4",
+        "6"
       ],
-      "correct": 0,
-      "explanation": "KQJx Txx može da odnese 4 štihova, jer su tri karte u boji KQJ, a dodatna karta iz Txx može doneti još jedan štih.",
-      "hint": "Pogledaj visinu karata u boji i broj karata u kombinaciji."
+      "correct": 3,
+      "explanation": "Nakon što "izbijemo asa kod protivnika, recimo igranjem male karte i desetke, ostaće nam K, Q i J koje su sledeće najveće karte.",
+      "hint": "Razmisli o žrtvovanju jednog štiha."
     },
     {
-      "question": "Koliko štihova sledeća kombinacija može da odnese?",
+      "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo "prelaza".",
       "hand": {
         "north": "AKQ",
         "south": "Jxxx"
       },
       "options": [
-        "5",
-        "4",
         "3",
+        "4",
+        "5",
+        "7"
+      ],
+      "correct": 4,
+      "explanation": "Nakon što odnesemo štih sa A, pa K, pa Q (ne nužno u tom redosledu), ostaće nam još J da odnese četvrti štih.",
+      "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
+    }
+    {
+      "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo "prelaza".",
+      "hand": {
+        "north": "AKQ",
+        "south": "Jxx"
+      },
+      "options": [
+        "3",
+        "4",
+        "5",
         "6"
       ],
-      "correct": 0,
-      "explanation": "AKQ Jxxx je visoka kombinacija koja može da uzme 5 štihova, jer je AKQ siguran bez gubitaka, dok Jxxx može da donese još jedan.",
-      "hint": "Razmisli o jakim kartama AKQ i mogućnostima za štih iz Jxxx."
+      "correct": 3,
+      "explanation": "Kako nemamo više od 3 karte ni u jednoj ruci a imamo najveće karte, maksimalan broj štihova je 3",
+      "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
     }
   ]
 }
