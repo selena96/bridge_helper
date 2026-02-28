@@ -36,12 +36,4 @@
           "answers": [
             { "text": "Royal Flush", "isCorrect": false },
             { "text": "Full House", "isCorrect": true },
-            { "text": "Straight Flush", "isCorrect": false }
-          ],
-          "hint": "Ova kombinacija je u osnovi tri para.",
-          "explanation": "Full House je najjača kombinacija."
-        }
-      ]
-    }
-  ]
-}
+            { "text": "Straight Flush", "isCorrect": false
