@@ -1,52 +1,97 @@
 {
-  "Broj štihova": [
-    {
-      "question": "Koliko štihova sledeća kombinacija može da odnese?",
-      "hand": {
-        "north": "KQJx",
-        "south": "Txx"
+  "Broj štihova": {
+    "color": "green", 
+    "questions": [
+      {
+        "question": "Koliko štihova sledeća kombinacija može da odnese?",
+        "hand": {
+          "north": "KQJx",
+          "south": "Txx"
+        },
+        "options": [
+          "0",
+          "3",
+          "4",
+          "6"
+        ],
+        "correct": 3,
+        "explanation": "Nakon što izbijemo asa kod protivnika, recimo igranjem male karte i desetke, ostaće nam K, Q i J koje su sledeće najveće karte.",
+        "hint": "Razmisli o žrtvovanju jednog štiha."
       },
-      "options": [
-        "0",
-        "3",
-        "4",
-        "6"
-      ],
-      "correct": 3,
-      "explanation": "Nakon što izbijemo asa kod protivnika, recimo igranjem male karte i desetke, ostaće nam K, Q i J koje su sledeće najveće karte.",
-      "hint": "Razmisli o žrtvovanju jednog štiha."
-    },
-    {
-      "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo prelaza.",
-      "hand": {
-        "north": "AKQ",
-        "south": "Jxxx"
+      {
+        "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo prelaza.",
+        "hand": {
+          "north": "AKQ",
+          "south": "Jxxx"
+        },
+        "options": [
+          "3",
+          "4",
+          "5",
+          "7"
+        ],
+        "correct": 4,
+        "explanation": "Nakon što odnesemo štih sa A, pa K, pa Q (ne nužno u tom redosledu), ostaće nam još J da odnese četvrti štih.",
+        "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
       },
-      "options": [
-        "3",
-        "4",
-        "5",
-        "7"
-      ],
-      "correct": 4,
-      "explanation": "Nakon što odnesemo štih sa A, pa K, pa Q (ne nužno u tom redosledu), ostaće nam još J da odnese četvrti štih.",
-      "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
-    },
-    {
-      "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo prelaza.",
-      "hand": {
-        "north": "AKQ",
-        "south": "Jxx"
-      },
-      "options": [
-        "3",
-        "4",
-        "5",
-        "6"
-      ],
-      "correct": 3,
-      "explanation": "Kako nemamo više od 3 karte ni u jednoj ruci a imamo najveće karte, maksimalan broj štihova je 3",
-      "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
-    }
-  ]
+      {
+        "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo prelaza.",
+        "hand": {
+          "north": "AKQ",
+          "south": "Jxx"
+        },
+        "options": [
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "correct": 3,
+        "explanation": "Kako nemamo više od 3 karte ni u jednoj ruci a imamo najveće karte, maksimalan broj štihova je 3",
+        "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
+      }
+    ]
+  },
+  "Drugi štihovi": {
+    "color": "orange", 
+    "questions": [
+      {
+        "question": "Koliko štihova sledeća kombinacija može da odnese?",
+        "hand": {
+          "north": "AQJx",
+          "south": "Kxx"
+        },
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct": 2,
+        "explanation": "Iako imamo visokih karata, potrebno je uzeti u obzir i broj karata u svakoj ruci.",
+        "hint": "Pogledaj razliku između jačih karata u obe ruke."
+      }
+    ]
+  },
+  "Treći štihovi": {
+    "color": "red", 
+    "questions": [
+      {
+        "question": "Koliko štihova sledeća kombinacija može da odnese?",
+        "hand": {
+          "north": "QJ",
+          "south": "T9"
+        },
+        "options": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ],
+        "correct": 0,
+        "explanation": "Nema dovoljno jačih karata za osvajanje štihova.",
+        "hint": "Razmisli o mogućnosti da ne pretrpiš gubitak štiha."
+      }
+    ]
+  }
 }
