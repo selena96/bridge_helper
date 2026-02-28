@@ -23,10 +23,10 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
             margin-bottom: 20px;
         }
 
@@ -50,6 +50,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            align-items: center;
         }
 
         .question-container {
@@ -64,6 +65,7 @@
             text-align: center;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 100%;
         }
 
         .answer-btn.correct {
@@ -110,6 +112,7 @@
             border-radius: 8px;
             border: none;
             cursor: pointer;
+            width: 100%;
         }
 
         .next-btn:disabled {
@@ -123,7 +126,7 @@
 <div class="container">
     <h1>Bridž - test</h1>
     <div id="menu" class="button-container">
-        <button class="category-btn" style="background-color: #21f34b;" onclick="startCategory('easy')">Laka kategorija</button>
+        <button class="category-btn" style="background-color: #2196F3;" onclick="startCategory('easy')">Laka kategorija</button>
         <button class="category-btn" style="background-color: #ff9800;" onclick="startCategory('medium')">Srednja kategorija</button>
         <button class="category-btn" style="background-color: #f44336;" onclick="startCategory('hard')">Teška kategorija</button>
     </div>
@@ -254,7 +257,7 @@
             document.getElementById('question-section').style.display = 'none';
             const sectionBtn = document.querySelector(`button[onclick="startCategory('${currentCategory}')"]`);
             const percentage = ((score / totalQuestions) * 100).toFixed(2);
-            sectionBtn.innerHTML = `Završeno (${percentage}%)`;
+            sectionBtn.innerHTML = `${sectionBtn.innerHTML} <br> (${percentage}%)`; // Keep original name + percentage
             document.getElementById('menu').style.display = 'block';
         }
     }
