@@ -1,134 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Bridž - vežbe</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-/* Basic layout */
-body {font-family: Arial, sans-serif; margin:0; padding:10px; background:#f9f9f9;}
-h1{text-align:center; font-size:1.8em; margin-bottom:20px;}
-#home{text-align:center;}
-.section-btn {display:block; margin:10px auto; padding:15px; width:90%; max-width:300px; font-size:1em; background:#007bff; color:white; border:none; border-radius:6px;}
-.section-btn:hover {background:#0056b3;}
-.section-score {font-size:0.9em; color:#212529; margin-top:5px;}
-#quiz-container {display:none; text-align:center;}
-.question {background-color:#fff; padding:20px; margin:15px auto; border-radius:8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width:90%; max-width:500px; font-size:1.2em;}
-.option {
-  padding:15px;
-  margin:10px 0;
-  background:#007bff;
-  color:white;
-  font-size:1.1em;
-  cursor:pointer;
-  border-radius:6px;
-  border: none;
-  transition: background-color 0.3s ease;
-  width: 90%;
-  max-width: 350px;
-  margin: 5px auto;
-  display: block;
-}
-.option:hover {background:#0056b3;}
-.selected {background:#28a745; border-color:#007bff;}
-.feedback {padding:20px; font-size:1em; border-radius:6px; margin-top:20px; display:none;}
-.correct {background:#d4edda; border-left:4px solid #28a745;}
-.incorrect {background:#f8d7da; border-left:4px solid #dc3545;}
-#nextBtn, #backBtn, #menuBtn {margin-top:15px; padding:12px; width:50%; max-width:200px; display:block; margin-left:auto; margin-right:auto; font-size:1em; border:none; border-radius:6px;}
-#nextBtn {background:#28a745; color:white;}
-#nextBtn:disabled {background:#ccc; cursor:default;}
-#backBtn {background:#6c757d; color:white; cursor:pointer;}
-#backBtn:hover {background:#5a6268;}
-#menuBtn {background:#007bff; color:white; cursor:pointer;}
-#menuBtn:hover {background:#0056b3;}
-#hintBtn {margin-top:10px; padding:8px 12px; font-size:0.9em; border:none; border-radius:5px; background:#ffc107; color:#212529; cursor:pointer;}
-#hintBtn:hover {background:#e0a800;}
-#explanation {margin-top:10px; padding:10px; border-radius:6px; background:#fff3cd; border-left:4px solid #ffeeba; display:none;}
-.progress {height:12px; background:#e0e0e0; border-radius:6px; margin-bottom:20px; overflow:hidden;}
-.progress-bar {height:100%; background:#007bff; width:0%;}
-#results {display:none; text-align:center;}
-#score {font-size:1.2em; margin-bottom:15px;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bridž - vežbe</title>
+  <style>
+    /* Basic layout and responsiveness */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 10px;
+      background: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+
+    #home {
+      text-align: center;
+    }
+
+    .section-btn {
+      display: block;
+      margin: 10px auto;
+      padding: 15px;
+      width: 90%;
+      max-width: 300px;
+      font-size: 1em;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .section-btn:hover {
+      background: #0056b3;
+    }
+
+    .section-score {
+      font-size: 0.9em;
+      color: #212529;
+      margin-top: 5px;
+    }
+
+    #quiz-container {
+      display: none;
+      text-align: center;
+    }
+
+    .question {
+      background-color: #fff;
+      padding: 20px;
+      margin: 15px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      font-size: 1.2em;
+    }
+
+    .option {
+      padding: 15px;
+      margin: 10px 0;
+      background: #007bff;
+      color: white;
+      font-size: 1.1em;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      transition: background-color 0.3s ease;
+      width: 90%;
+      max-width: 350px;
+      margin: 5px auto;
+      display: block;
+    }
+
+    .option:hover {
+      background: #0056b3;
+    }
+
+    .selected {
+      background: #28a745;
+      border-color: #007bff;
+    }
+
+    .feedback {
+      padding: 20px;
+      font-size: 1em;
+      border-radius: 6px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .correct {
+      background: #d4edda;
+      border-left: 4px solid #28a745;
+    }
+
+    .incorrect {
+      background: #f8d7da;
+      border-left: 4px solid #dc3545;
+    }
+
+    #nextBtn,
+    #backBtn,
+    #menuBtn {
+      margin-top: 15px;
+      padding: 12px;
+      width: 50%;
+      max-width: 200px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+    }
+
+    #nextBtn {
+      background: #28a745;
+      color: white;
+    }
+
+    #nextBtn:disabled {
+      background: #ccc;
+      cursor: default;
+    }
+
+    #backBtn {
+      background: #6c757d;
+      color: white;
+      cursor: pointer;
+    }
+
+    #backBtn:hover {
+      background: #5a6268;
+    }
+
+    #menuBtn {
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    #menuBtn:hover {
+      background: #0056b3;
+    }
+
+    #hintBtn {
+      margin-top: 10px;
+      padding: 8px 12px;
+      font-size: 0.9em;
+      border: none;
+      border-radius: 5px;
+      background: #ffc107;
+      color: #212529;
+      cursor: pointer;
+    }
+
+    #hintBtn:hover {
+      background: #e0a800;
+    }
+
+    #explanation {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      background: #fff3cd;
+      border-left: 4px solid #ffeeba;
+      display: none;
+    }
+
+    /* Hand styling */
+    .hand {
+      background-color: #f1f1f1;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 1.1em;
+      margin-top: 10px;
+    }
+
+    .hand strong {
+      font-size: 1.2em;
+      color: #007bff;
+    }
+
+    .hand {
+      font-family: "Courier New", monospace;
+    }
+
+    /* Progress bar */
+    .progress {
+      height: 12px;
+      background: #e0e0e0;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: #007bff;
+      width: 0%;
+    }
+
+    #results {
+      display: none;
+      text-align: center;
+    }
+
+    #score {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Bridž - vežbe</h1>
+  <h1>Bridž - vežbe</h1>
 
-<div id="home">
-  <h2>Odaberi kategoriju</h2>
-</div>
+  <div id="home">
+    <h2>Odaberi kategoriju</h2>
+  </div>
 
-<div id="quiz-container">
-  <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
-  <div id="quiz"></div>
-  <div id="explanation"></div>
-  <button id="hintBtn" style="display:none;">Prikazi nagoveštaj</button>
-  <button id="nextBtn" disabled>Sledeće</button>
-  <button id="backBtn">Povratak na meni</button>
-</div>
+  <div id="quiz-container">
+    <div class="progress">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div id="quiz"></div>
+    <div id="explanation"></div>
+    <button id="hintBtn" style="display:none;">Prikazi nagoveštaj</button>
+    <button id="nextBtn" disabled>Sledeće</button>
+    <button id="backBtn">Povratak na meni</button>
+  </div>
 
-<div id="results">
-  <h2>Rezultati</h2>
-  <p id="score"></p>
-  <button id="menuBtn">Povratak na meni</button>
-</div>
+  <div id="results">
+    <h2>Rezultati</h2>
+    <p id="score"></p>
+    <button id="menuBtn">Povratak na meni</button>
+  </div>
 
-<script>
-// Example of loading the question and showing the card hands
-let questionBank = {};
-let sectionScores = {}; // store latest percentage
-let currentSection = "";
-let questions = [];
-let currentIndex = 0;
-let selectedOption = null;
-let score = 0;
+  <script>
+    let questionBank = {};
+    let sectionScores = {}; // store latest percentage
+    let currentSection = "";
+    let questions = [];
+    let currentIndex = 0;
+    let selectedOption = null;
+    let score = 0;
 
-const home = document.getElementById("home");
-const quizContainer = document.getElementById("quiz-container");
-const results = document.getElementById("results");
-const quizDiv = document.getElementById("quiz");
-const nextBtn = document.getElementById("nextBtn");
-const backBtn = document.getElementById("backBtn");
-const menuBtn = document.getElementById("menuBtn");
-const progressBar = document.getElementById("progress-bar");
-const scoreText = document.getElementById("score");
-const explanationDiv = document.getElementById("explanation");
-const hintBtn = document.getElementById("hintBtn");
-
-// Cache-busting fetch
-function loadQuestions() {
-  fetch(`questions.json?v=${Date.now()}`)
-  .then(res => res.json())
-  .then(data => {
-    questionBank = data;
-    updateHomeMenu();
-  })
-  .catch(err => console.error("Failed to load questions.json:", err));
-}
-
-function updateHomeMenu() {
-  home.innerHTML = "<h2>Odaberi kategoriju</h2>";
-  for (let section in questionBank) {
-    const btn = document.createElement("button");
-    btn.className = "section-btn";
-    btn.innerText = section;
-    btn.dataset.section = section;
-    btn.addEventListener("click", () => { currentSection = section; startSection(); });
-    home.appendChild(btn);
-
-    if (sectionScores[section] !== undefined) {
-      const scoreDiv = document.createElement("div");
-      scoreDiv.className = "section-score";
-      scoreDiv.innerText = `Last score: ${sectionScores[section]}%`;
-      btn.appendChild(scoreDiv);
-    }
-  }
-}
-
-function startSection() {
-  home.style.display = "none";
-  results.style.display = "none";
-  quizContainer.style.display = "block";
-  questions = questionBank[currentSection];
-  currentIndex = 0;
-  score = 
+    const home = document.getElementById("home");
+    const quizContainer = document.getElementById("quiz-container");
+    const results = document.getElementById("results");
+    const quizDiv = document.getElementById("quiz");
+    const nextBtn = document.getElementById("
