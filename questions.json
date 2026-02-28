@@ -1,6 +1,6 @@
 {
   "Broj štihova": {
-    "color": "green", 
+    "color": "section-green",
     "questions": [
       {
         "question": "Koliko štihova sledeća kombinacija može da odnese?",
@@ -37,34 +37,13 @@
     ]
   },
   "Drugi štihovi": {
-    "color": "orange", 
+    "color": "section-orange",
     "questions": [
       {
         "question": "Koliko štihova sledeća kombinacija može da odnese?",
         "hand": {
-          "north": "AQJx",
+          "north": "Axx",
           "south": "Kxx"
-        },
-        "options": [
-          "2",
-          "3",
-          "4",
-          "5"
-        ],
-        "correct": 2,
-        "explanation": "Iako imamo visokih karata, potrebno je uzeti u obzir i broj karata u svakoj ruci.",
-        "hint": "Pogledaj razliku između jačih karata u obe ruke."
-      }
-    ]
-  },
-  "Treći štihovi": {
-    "color": "red", 
-    "questions": [
-      {
-        "question": "Koliko štihova sledeća kombinacija može da odnese?",
-        "hand": {
-          "north": "QJ",
-          "south": "T9"
         },
         "options": [
           "0",
@@ -72,9 +51,30 @@
           "2",
           "3"
         ],
-        "correct": 0,
-        "explanation": "Nema dovoljno jačih karata za osvajanje štihova.",
-        "hint": "Razmisli o mogućnosti da ne pretrpiš gubitak štiha."
+        "correct": 2,
+        "explanation": "Iako imamo samo 3 karte, to će biti dovoljno da se odnese 2 štihova sa A i K.",
+        "hint": "Razmisli o tome koje karte mogu preći."
+      }
+    ]
+  },
+  "Treći štihovi": {
+    "color": "section-red",
+    "questions": [
+      {
+        "question": "Koliko štihova sledeća kombinacija može da odnese?",
+        "hand": {
+          "north": "Qx",
+          "south": "Tx"
+        },
+        "options": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ],
+        "correct": 1,
+        "explanation": "Možemo da odnesemo samo jedan štih, uzimajući Q iz severa i T iz juga.",
+        "hint": "Razmisli o snazi karata."
       }
     ]
   }
