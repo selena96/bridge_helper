@@ -13,11 +13,11 @@
         "6"
       ],
       "correct": 3,
-      "explanation": "Nakon što "izbijemo asa kod protivnika, recimo igranjem male karte i desetke, ostaće nam K, Q i J koje su sledeće najveće karte.",
+      "explanation": "Nakon što izbijemo asa kod protivnika, recimo igranjem male karte i desetke, ostaće nam K, Q i J koje su sledeće najveće karte.",
       "hint": "Razmisli o žrtvovanju jednog štiha."
     },
     {
-      "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo "prelaza".",
+      "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo prelaza.",
       "hand": {
         "north": "AKQ",
         "south": "Jxxx"
@@ -33,7 +33,7 @@
       "hint": "Razmisli o tome koji je maksimalan broj štihova s obzirom na broj karata po ruci."
     }
     {
-      "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo "prelaza".",
+      "question": "Koliko štihova sledeća kombinacija može da odnese? Pretpostavi da imamo prelaza.",
       "hand": {
         "north": "AKQ",
         "south": "Jxx"
