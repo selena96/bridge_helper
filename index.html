@@ -148,7 +148,7 @@
     fetch('questions.json')
         .then(response => response.json())
         .then(data => {
-            questions = data;
+            questions = data.categories; // Use the categories from the JSON
             generateCategoryButtons(); // Generate buttons based on JSON
         })
         .catch(err => console.error("Error loading questions.json:", err));
@@ -161,22 +161,13 @@
     // Dynamically generate buttons for each category in the main menu
     function generateCategoryButtons() {
         const menuContainer = document.getElementById('menu');
-        for (let category in questions) {
+        for (let category of questions) {
             const categoryButton = document.createElement('button');
             categoryButton.classList.add('category-btn');
-            categoryButton.style.backgroundColor = getCategoryColor(category);
-            categoryButton.textContent = category.charAt(0).toUpperCase() + category.slice(1) + ' kategorija';
+            categoryButton.style.backgroundColor = category.color;
+            categoryButton.textContent = category.name;
             categoryButton.onclick = () => startCategory(category);
             menuContainer.appendChild(categoryButton);
-        }
-    }
-
-    function getCategoryColor(category) {
-        switch (category) {
-            case 'easy': return '#2196F3'; // Light blue
-            case 'medium': return '#ff9800'; // Orange
-            case 'hard': return '#f44336'; // Red
-            default: return '#607d8b'; // Default grey
         }
     }
 
@@ -184,14 +175,14 @@
         currentCategory = category;
         currentQuestionIndex = 0;
         score = 0;
-        totalQuestions = questions[category].length;
+        totalQuestions = category.questions.length;
         document.getElementById('menu').style.display = 'none';
         document.getElementById('question-section').style.display = 'block';
         showQuestion();
     }
 
     function showQuestion() {
-        const questionData = questions[currentCategory][currentQuestionIndex];
+        const questionData = currentCategory.questions[currentQuestionIndex];
         document.getElementById('question-title').textContent = `Pitanje ${currentQuestionIndex + 1}`;
         document.getElementById('question-text').textContent = questionData.question;
 
@@ -207,7 +198,7 @@
     }
 
     function checkAnswer(selectedIndex) {
-        const questionData = questions[currentCategory][currentQuestionIndex];
+        const questionData = currentCategory.questions[currentQuestionIndex];
         const correctIndex = questionData.correctAnswer;
 
         const buttons = document.querySelectorAll('.answer-btn');
@@ -231,12 +222,12 @@
     }
 
     function nextQuestion() {
-        if (currentQuestionIndex < questions[currentCategory].length - 1) {
+        if (currentQuestionIndex < currentCategory.questions.length - 1) {
             currentQuestionIndex++;
             showQuestion();
         } else {
             document.getElementById('question-section').style.display = 'none';
-            const sectionBtn = document.querySelector(`button[onclick="startCategory('${currentCategory}')"]`);
+            const sectionBtn = document.querySelector(`button[onclick="startCategory('${currentCategory.name}')"]`);
             const percentage = ((score / totalQuestions) * 100).toFixed(2);
             sectionBtn.innerHTML = `${sectionBtn.innerHTML} <br> (${percentage}%)`; // Keep original name + percentage
             document.getElementById('menu').style.display = 'block';
@@ -244,7 +235,7 @@
     }
 
     function showHint() {
-        const questionData = questions[currentCategory][currentQuestionIndex];
+        const questionData = currentCategory.questions[currentQuestionIndex];
         alert(questionData.hint);
     }
 </script>
