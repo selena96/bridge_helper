@@ -155,11 +155,14 @@
 
         // Start quiz for a selected category
         function startQuiz(category) {
+            // Reset the quiz state for each section
             currentCategory = category;
             currentQuestionIndex = 0;
             score = 0;
             document.querySelector('.main-menu').style.display = 'none';
             document.querySelector('#question-container').style.display = 'block';
+            document.querySelector('#score').style.display = 'none';
+            document.querySelector('#final-score').textContent = '';
             loadQuestion();
         }
 
@@ -227,6 +230,7 @@
 
         // Go back to the main menu
         function goToMainMenu() {
+            // Reset the quiz state
             document.querySelector('.main-menu').style.display = 'block';
             document.querySelector('#score').style.display = 'none';
 
