@@ -20,7 +20,6 @@
         .menu-button {
             padding: 15px;
             font-size: 1.1em;
-            background-color: #4CAF50;
             border: none;
             cursor: pointer;
             color: white;
@@ -29,7 +28,7 @@
             margin: 10px 0;
         }
         .menu-button:hover {
-            background-color: #45a049;
+            opacity: 0.8;
         }
         .quiz-section {
             margin: 20px;
@@ -133,8 +132,7 @@
 
     <!-- Main Menu -->
     <div id="menu-container">
-        <button class="menu-button" onclick="startSection(0)">Easy Section <span id="easy-score">0/0</span></button>
-        <button class="menu-button" onclick="startSection(1)">Hard Section <span id="hard-score">0/0</span></button>
+        <!-- Buttons will be generated dynamically here -->
     </div>
 
     <!-- Quiz Section -->
@@ -288,10 +286,23 @@
                 const response = await fetch('questions.json');
                 const data = await response.json();
                 quizData.push(...data); // Push the data into the quizData array
-                showMainMenu(); // Show the main menu after loading the data
+                generateMenu(); // Generate the menu after loading the data
             } catch (error) {
                 console.error('Error loading questions:', error);
             }
+        }
+
+        // Generate the menu dynamically with color-based buttons
+        function generateMenu() {
+            const menuContainer = document.getElementById('menu-container');
+            quizData.forEach((section, index) => {
+                const button = document.createElement('button');
+                button.classList.add('menu-button');
+                button.textContent = `${section.title} `;
+                button.style.backgroundColor = section.color === 'green' ? '#4CAF50' : '#f44336'; // Green for easy, Red for hard
+                button.onclick = () => startSection(index);
+                menuContainer.appendChild(button);
+            });
         }
 
         // Start by loading questions
