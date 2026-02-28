@@ -1,43 +1,29 @@
 {
-    "easy_questions": [
-        {
-            "question": "Kako igraš ovu boju?",
-            "hand": "KQJx Txx",
-            "options": ["Ostavi boju", "Igraj visoko", "Igraj nisku", "Igraj u triku"],
-            "answer": 1,
-            "explanation": "Ovaj redosled karti je odličan za igranje visoko."
-        }
-    ],
-    "medium_questions": [
-        {
-            "question": "Kako igraš ovu boju?",
-            "hand": "Axx KJx",
-            "options": ["Igraj visoko", "Igraj nisku", "Igraj u triku", "Ostavi boju"],
-            "answer": 2,
-            "explanation": "Srednji redosled kao što je ovaj obično zahteva igranje niskih karti."
-        }
-    ],
-    "hard_questions": [
-        {
-            "question": "Kako igraš ovu boju?",
-            "hand": "KJ10x Q9xx",
-            "options": ["Ostavi boju", "Igraj visoko", "Igraj nisku", "Igraj u triku"],
-            "answer": 3,
-            "explanation": "Ovaj redosled karti zahteva korišćenje trikova za postizanje boljih rezultata."
-        },
-        {
-            "question": "Kako igraš ovu boju?",
-            "hand": "AQxx K10x",
-            "options": ["Igraj visoko", "Igraj nisku", "Ostavi boju", "Igraj u triku"],
-            "answer": 0,
-            "explanation": "Visoka karta, kao što je dama, često je najbolja u ovakvim situacijama. Igraj visoko."
-        },
-        {
-            "question": "Kako igraš ovu boju?",
-            "hand": "Jx 9xx",
-            "options": ["Igraj visoko", "Ostavi boju", "Igraj nisku", "Igraj u triku"],
-            "answer": 2,
-            "explanation": "U ovoj situaciji, igranje niskih karti može omogućiti bolje rezultate."
-        }
-    ]
+  "easy": [
+    {
+      "question": "Kako igrate ovu boju: KQJx Txx?",
+      "answers": ["Započnite sa K", "Započnite sa Q", "Započnite sa J", "Započnite sa T"],
+      "correctAnswer": 1,
+      "explanation": "Počnite sa K da biste eliminisali visokog protivnika.",
+      "hint": "Najbolje je da počnete sa K."
+    }
+  ],
+  "medium": [
+    {
+      "question": "Kako biste igrali boju: AQ9x KJx?",
+      "answers": ["Igrajte A", "Igrajte Q", "Igrajte K", "Igrajte J"],
+      "correctAnswer": 1,
+      "explanation": "Počnite sa A da biste imali kontrolu u boji.",
+      "hint": "Najbolje je početi sa A."
+    }
+  ],
+  "hard": [
+    {
+      "question": "Kako igrate boju: KJxx Qxx?",
+      "answers": ["Započnite sa K", "Započnite sa J", "Započnite sa Q", "Započnite sa X"],
+      "correctAnswer": 1,
+      "explanation": "Započnite sa K da biste iskoristili moćnu kartu.",
+      "hint": "Počnite sa K."
+    }
+  ]
 }
