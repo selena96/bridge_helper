@@ -144,7 +144,8 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let currentCategory = '';
-        let selectedAnswer = null;
+        let selectedAnswer = null; // Store the last selected answer index
+        let correctAnswer = null; // Store the correct answer index for comparison
         let categoryScores = { easy: null, medium: null, hard: null };
 
         // Fetch questions from questions.json
@@ -159,7 +160,8 @@
             currentCategory = category;
             currentQuestionIndex = 0;
             score = 0;
-            selectedAnswer = null; // Reset selected answer
+            selectedAnswer = null;
+            correctAnswer = null;
             document.querySelector('.main-menu').style.display = 'none';
             document.querySelector('#question-container').style.display = 'block';
             document.querySelector('#score').style.display = 'none';
@@ -186,6 +188,7 @@
             });
 
             selectedAnswer = null; // Reset selected answer
+            correctAnswer = categoryQuestions[currentQuestionIndex].correctAnswer;
             document.querySelector('#hint').style.display = 'block';
         }
 
@@ -205,10 +208,6 @@
 
             selectedAnswer = answerIndex; // Set the new selected answer
 
-            const categoryQuestions = questions[currentCategory];
-            const question = categoryQuestions[currentQuestionIndex];
-            const correctAnswer = question.correctAnswer;
-
             // Mark the selected answer
             if (answerIndex === correctAnswer) {
                 document.querySelector(`#answer${answerIndex}`).classList.add('green');
@@ -217,7 +216,16 @@
                 document.querySelector(`#answer${correctAnswer}`).classList.add('green');
             }
 
+            // Show explanation and next button
+            const categoryQuestions = questions[currentCategory];
+            const question = categoryQuestions[currentQuestionIndex];
             document.querySelector('#explanation').textContent = question.explanation;
+
+            // Increase score if the selected answer is correct
+            if (answerIndex === correctAnswer) {
+                score++;
+            }
+
             document.querySelector('#next-button').style.display = 'block';
             document.querySelectorAll('.answer-button').forEach(button => button.disabled = true); // Disable buttons after answer is selected
         }
@@ -245,7 +253,8 @@
             // Reset the quiz state completely
             currentQuestionIndex = 0;
             score = 0;
-            selectedAnswer = null; // Reset selected answer
+            selectedAnswer = null;
+            correctAnswer = null;
             document.querySelector('.main-menu').style.display = 'block';
             document.querySelector('#score').style.display = 'none';
             document.querySelector('#question-container').style.display = 'none';
