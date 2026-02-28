@@ -5,55 +5,21 @@
 <title>Bridge Helper - Quiz</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 10px;
-  background: #f9f9f9;
-}
+body {font-family: Arial, sans-serif; margin:0; padding:10px; background:#f9f9f9;}
 h1{text-align:center; font-size:1.8em; margin-bottom:20px;}
 #home{text-align:center;}
-.section-btn {
-  display:block;
-  margin:10px auto;
-  padding:15px;
-  width:90%;
-  max-width:300px;
-  font-size:1em;
-  background:#007bff;
-  color:white;
-  border:none;
-  border-radius:6px;
-}
+.section-btn {display:block; margin:10px auto; padding:15px; width:90%; max-width:300px; font-size:1em; background:#007bff; color:white; border:none; border-radius:6px;}
 .section-btn:hover {background:#0056b3;}
 .section-score {font-size:0.9em; color:#212529; margin-top:5px;}
 #quiz-container {display:none;}
 .question {margin-bottom:20px;}
-.option {
-  padding:12px;
-  margin:5px 0;
-  border:1px solid #ccc;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:1em;
-}
+.option {padding:12px; margin:5px 0; border:1px solid #ccc; border-radius:6px; cursor:pointer; font-size:1em;}
 .option:hover {background:#e0f0ff;}
 .selected {background:#d0ebff; border-color:#007bff;}
 .feedback {margin-top:10px; padding:10px; border-radius:6px;}
 .correct {background:#d4edda; border-left:4px solid #28a745;}
 .incorrect {background:#f8d7da; border-left:4px solid #dc3545;}
-#nextBtn, #backBtn, #menuBtn {
-  margin-top:15px;
-  padding:12px;
-  width:50%;
-  max-width:200px;
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
-  font-size:1em;
-  border:none;
-  border-radius:6px;
-}
+#nextBtn, #backBtn, #menuBtn {margin-top:15px; padding:12px; width:50%; max-width:200px; display:block; margin-left:auto; margin-right:auto; font-size:1em; border:none; border-radius:6px;}
 #nextBtn {background:#28a745; color:white;}
 #nextBtn:disabled {background:#ccc; cursor:default;}
 #backBtn {background:#6c757d; color:white; cursor:pointer;}
@@ -94,7 +60,7 @@ h1{text-align:center; font-size:1.8em; margin-bottom:20px;}
 
 <script>
 let questionBank = {};
-let sectionScores = {}; // track latest percentage per section
+let sectionScores = {}; // store latest percentage
 let currentSection = "";
 let questions = [];
 let currentIndex = 0;
@@ -113,13 +79,16 @@ const scoreText = document.getElementById("score");
 const explanationDiv = document.getElementById("explanation");
 const hintBtn = document.getElementById("hintBtn");
 
-// Load questions from JSON
-fetch("questions.json")
-.then(res => res.json())
-.then(data => {
-  questionBank = data;
-  updateHomeMenu();
-});
+// Cache-busting fetch
+function loadQuestions() {
+  fetch(`questions.json?v=${Date.now()}`)
+  .then(res => res.json())
+  .then(data => {
+    questionBank = data;
+    updateHomeMenu();
+  })
+  .catch(err => console.error("Failed to load questions.json:", err));
+}
 
 function updateHomeMenu(){
   home.innerHTML = "<h2>Select a Section</h2>";
@@ -131,7 +100,7 @@ function updateHomeMenu(){
     btn.addEventListener("click", () => { currentSection = section; startSection(); });
     home.appendChild(btn);
 
-    // Show latest percentage if available
+    // Show latest percentage
     if(sectionScores[section] !== undefined){
       const scoreDiv = document.createElement("div");
       scoreDiv.className = "section-score";
@@ -210,7 +179,7 @@ function showResults(){
 menuBtn.addEventListener("click", ()=>{
   results.style.display = "none";
   home.style.display = "block";
-  updateHomeMenu();
+  loadQuestions(); // reload with fresh scores
 });
 
 backBtn.addEventListener("click", ()=>{
@@ -223,6 +192,9 @@ function updateProgress(){
   const percent = (currentIndex / questions.length) * 100;
   progressBar.style.width = percent + "%";
 }
+
+// Initial load
+loadQuestions();
 </script>
 
 </body>
