@@ -110,7 +110,7 @@
     <div class="score" id="score-container"></div>
 
     <script>
-        const quizData = [];
+        const quizData = []; // Holds the quiz data loaded from questions.json
         let currentSection = 0;
         let currentQuestionIndex = 0;
         let score = 0;
@@ -122,7 +122,7 @@
             currentQuestionIndex = 0;
             score = 0;
             totalQuestions = 0;
-            document.getElementById('menu-container').style.display = 'none';
+            document.getElementById('menu-container').style.display = 'none'; // Hide menu after selecting section
             renderSection();
         }
 
@@ -213,15 +213,20 @@
 
         // Load questions from questions.json
         async function loadQuestions() {
-            const response = await fetch('questions.json');
-            const data = await response.json();
-            quizData.push(...data);
-            showMainMenu();
+            try {
+                const response = await fetch('questions.json');
+                const data = await response.json();
+                quizData.push(...data); // Push the data into the quizData array
+                console.log('Quiz data loaded:', quizData); // Debug log to ensure data is loaded
+                showMainMenu(); // Show the main menu after loading the data
+            } catch (error) {
+                console.error('Error loading questions:', error);
+            }
         }
 
         // Show the main menu
         function showMainMenu() {
-            document.getElementById('menu-container').style.display = 'block';
+            document.getElementById('menu-container').style.display = 'block'; // Show the menu
         }
 
         // Start by loading questions
