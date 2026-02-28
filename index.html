@@ -155,4 +155,128 @@
   <div id="results">
     <h2>Rezultati</h2>
     <p id="score"></p>
-    <button id="menuBtn">P
+    <button id="menuBtn">Povratak na meni</button>
+  </div>
+
+  <script>
+    let questionBank = {};
+    let currentSection = "";
+    let questions = [];
+    let currentIndex = 0;
+    let score = 0;
+
+    const home = document.getElementById("home");
+    const quizContainer = document.getElementById("quiz-container");
+    const results = document.getElementById("results");
+    const quizDiv = document.getElementById("quiz");
+    const nextBtn = document.getElementById("nextBtn");
+    const backBtn = document.getElementById("backBtn");
+    const menuBtn = document.getElementById("menuBtn");
+    const progressBar = document.getElementById("progress-bar");
+    const scoreText = document.getElementById("score");
+    const explanationDiv = document.getElementById("explanation");
+    const hintBtn = document.getElementById("hintBtn");
+
+    // Load questions from the json
+    function loadQuestions() {
+      fetch(`questions.json?v=${Date.now()}`)
+        .then(res => res.json())
+        .then(data => {
+          questionBank = data;
+          updateHomeMenu();
+        })
+        .catch(err => console.error("Failed to load questions.json:", err));
+    }
+
+    // Update home menu with sections
+    function updateHomeMenu() {
+      home.innerHTML = "<h2>Odaberi kategoriju</h2>";
+      for (let section in questionBank) {
+        const btn = document.createElement("button");
+        btn.className = "section-btn";
+        btn.innerText = section;
+        btn.dataset.section = section;
+
+        // Get section color
+        const sectionColor = questionBank[section].color || "gray";
+        btn.style.backgroundColor = sectionColor;
+
+        btn.addEventListener("click", () => {
+          currentSection = section;
+          startSection();
+        });
+        home.appendChild(btn);
+      }
+    }
+
+    // Start the selected section
+    function startSection() {
+      home.style.display = "none";
+      results.style.display = "none";
+      quizContainer.style.display = "block";
+      questions = questionBank[currentSection].questions;
+      currentIndex = 0;
+      score = 0;
+      loadQuestion();
+    }
+
+    // Load the next question
+    function loadQuestion() {
+      const q = questions[currentIndex];
+      quizDiv.innerHTML = `<div class="question"><p>${q.question}</p>` +
+        `<div class="hand"><strong>North:</strong> ${q.hand.north}<br><strong>South:</strong> ${q.hand.south}</div>` +
+        q.options.map((opt, i) => `<div class="option" data-index="${i}">${opt}</div>`).join("") +
+        `</div>`;
+      explanationDiv.style.display = "none";
+      explanationDiv.innerText = q.explanation || "";
+      selectedOption = null;
+      nextBtn.disabled = true;
+
+      if (q.hint) {
+        hintBtn.style.display = "block";
+        hintBtn.onclick = () => alert(q.hint);
+      } else {
+        hintBtn.style.display = "none";
+      }
+
+      document.querySelectorAll(".option").forEach(opt => {
+        opt.addEventListener("click", () => {
+          document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+          opt.classList.add("selected");
+          selectedOption = parseInt(opt.dataset.index);
+          showFeedback();
+          nextBtn.disabled = false;
+        });
+      });
+
+      updateProgress();
+    }
+
+    // Show feedback on the question answer
+    function showFeedback() {
+      const q = questions[currentIndex];
+      explanationDiv.style.display = "block";
+      explanationDiv.innerText = q.explanation || "";
+      if (selectedOption === q.correct) {
+        explanationDiv.className = "feedback correct";
+        score++;
+      } else {
+        explanationDiv.className = "feedback incorrect";
+      }
+    }
+
+    // Show the results at the end
+    nextBtn.addEventListener("click", () => {
+      currentIndex++;
+      if (currentIndex < questions.length) loadQuestion();
+      else showResults();
+    });
+
+    function showResults() {
+      quizContainer.style.display = "none";
+      results.style.display = "block";
+      const percent = Math.round((score / questions.length) * 100);
+      scoreText.innerText = `You scored ${score} / ${questions.length} (${percent}%) in ${currentSection}`;
+    }
+
+    menuBtn.addEventListener("
