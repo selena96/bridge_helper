@@ -17,6 +17,20 @@
             color: white;
             padding: 10px;
         }
+        .menu-button {
+            padding: 15px;
+            font-size: 1.1em;
+            background-color: #4CAF50;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 5px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .menu-button:hover {
+            background-color: #45a049;
+        }
         .quiz-section {
             margin: 20px;
             padding: 20px;
@@ -70,18 +84,36 @@
             text-align: center;
             margin-top: 20px;
         }
-        .menu-button {
-            padding: 15px;
-            font-size: 1.1em;
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .popup-content {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .popup button {
+            margin: 10px;
+            padding: 10px 20px;
             background-color: #4CAF50;
+            color: white;
             border: none;
             cursor: pointer;
-            color: white;
             border-radius: 5px;
-            width: 100%;
-            margin: 10px 0;
         }
-        .menu-button:hover {
+        .popup button:hover {
             background-color: #45a049;
         }
         @media (max-width: 600px) {
@@ -100,14 +132,22 @@
     </header>
 
     <!-- Main Menu -->
-    <div id="menu-container" style="display: none;">
-        <button class="menu-button" onclick="startSection(0)">Easy Section</button>
-        <button class="menu-button" onclick="startSection(1)">Hard Section</button>
+    <div id="menu-container">
+        <button class="menu-button" onclick="startSection(0)">Easy Section <span id="easy-score">0/0</span></button>
+        <button class="menu-button" onclick="startSection(1)">Hard Section <span id="hard-score">0/0</span></button>
     </div>
 
     <!-- Quiz Section -->
     <div id="quiz-container"></div>
-    <div class="score" id="score-container"></div>
+
+    <!-- Pop-up for final score -->
+    <div id="score-popup" class="popup">
+        <div class="popup-content">
+            <h2>Quiz Completed!</h2>
+            <p id="final-score"></p>
+            <button onclick="showMainMenu()">Go to Main Menu</button>
+        </div>
+    </div>
 
     <script>
         const quizData = []; // Holds the quiz data loaded from questions.json
@@ -209,23 +249,36 @@
         // End the section and show score for that section
         function endSection() {
             sectionScores[currentSection] = score;
-            showScore();
-            const backToMenuButton = document.createElement('button');
-            backToMenuButton.classList.add('menu-button');
-            backToMenuButton.textContent = 'Back to Main Menu';
-            backToMenuButton.onclick = showMainMenu;
-            document.getElementById('quiz-container').appendChild(backToMenuButton);
+            updateMainMenu();
+            showPopup();
         }
 
-        // Show the score for the current section
-        function showScore() {
-            const percentage = (score / totalQuestions) * 100;
-            const scoreDiv = document.getElementById('score-container');
-            scoreDiv.innerHTML = `
-                <p>Your score for this section: ${percentage.toFixed(2)}%</p>
-                <p>Easy Section Score: ${sectionScores[0]} / ${quizData[0].questions.length}</p>
-                <p>Hard Section Score: ${sectionScores[1]} / ${quizData[1].questions.length}</p>
-            `;
+        // Update score on the main menu
+        function updateMainMenu() {
+            document.getElementById('easy-score').textContent = `${sectionScores[0]} / ${quizData[0].questions.length}`;
+            document.getElementById('hard-score').textContent = `${sectionScores[1]} / ${quizData[1].questions.length}`;
+        }
+
+        // Show the final score in a pop-up
+        function showPopup() {
+            const finalScore = (score / totalQuestions) * 100;
+            document.getElementById('final-score').textContent = `Your final score: ${finalScore.toFixed(2)}%`;
+            document.getElementById('score-popup').style.display = 'flex';
+        }
+
+        // Go back to the main menu
+        function showMainMenu() {
+            document.getElementById('menu-container').style.display = 'block'; // Show the menu again
+            document.getElementById('score-popup').style.display = 'none'; // Hide the pop-up
+            resetQuiz();
+        }
+
+        // Reset the quiz state
+        function resetQuiz() {
+            currentSection = 0;
+            currentQuestionIndex = 0;
+            score = 0;
+            totalQuestions = 0;
         }
 
         // Load questions from questions.json
@@ -234,17 +287,10 @@
                 const response = await fetch('questions.json');
                 const data = await response.json();
                 quizData.push(...data); // Push the data into the quizData array
-                console.log('Quiz data loaded:', quizData); // Debug log to ensure data is loaded
                 showMainMenu(); // Show the main menu after loading the data
             } catch (error) {
                 console.error('Error loading questions:', error);
             }
-        }
-
-        // Show the main menu
-        function showMainMenu() {
-            document.getElementById('menu-container').style.display = 'block'; // Show the menu
-            document.getElementById('score-container').innerHTML = ''; // Clear score display
         }
 
         // Start by loading questions
