@@ -2,21 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Bridge Helper - Quiz</title>
+<title>Bridž - vežbe</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+/* Basic layout */
 body {font-family: Arial, sans-serif; margin:0; padding:10px; background:#f9f9f9;}
 h1{text-align:center; font-size:1.8em; margin-bottom:20px;}
 #home{text-align:center;}
 .section-btn {display:block; margin:10px auto; padding:15px; width:90%; max-width:300px; font-size:1em; background:#007bff; color:white; border:none; border-radius:6px;}
 .section-btn:hover {background:#0056b3;}
 .section-score {font-size:0.9em; color:#212529; margin-top:5px;}
-#quiz-container {display:none;}
-.question {margin-bottom:20px;}
-.option {padding:12px; margin:5px 0; border:1px solid #ccc; border-radius:6px; cursor:pointer; font-size:1em;}
-.option:hover {background:#e0f0ff;}
-.selected {background:#d0ebff; border-color:#007bff;}
-.feedback {margin-top:10px; padding:10px; border-radius:6px;}
+#quiz-container {display:none; text-align:center;}
+.question {background-color:#fff; padding:20px; margin:15px auto; border-radius:8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width:90%; max-width:500px; font-size:1.2em;}
+.option {
+  padding:15px;
+  margin:10px 0;
+  background:#007bff;
+  color:white;
+  font-size:1.1em;
+  cursor:pointer;
+  border-radius:6px;
+  border: none;
+  transition: background-color 0.3s ease;
+  width: 90%;
+  max-width: 350px;
+  margin: 5px auto;
+  display: block;
+}
+.option:hover {background:#0056b3;}
+.selected {background:#28a745; border-color:#007bff;}
+.feedback {padding:20px; font-size:1em; border-radius:6px; margin-top:20px; display:none;}
 .correct {background:#d4edda; border-left:4px solid #28a745;}
 .incorrect {background:#f8d7da; border-left:4px solid #dc3545;}
 #nextBtn, #backBtn, #menuBtn {margin-top:15px; padding:12px; width:50%; max-width:200px; display:block; margin-left:auto; margin-right:auto; font-size:1em; border:none; border-radius:6px;}
@@ -47,18 +62,19 @@ h1{text-align:center; font-size:1.8em; margin-bottom:20px;}
   <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
   <div id="quiz"></div>
   <div id="explanation"></div>
-  <button id="hintBtn" style="display:none;">Show Hint</button>
-  <button id="nextBtn" disabled>Next</button>
-  <button id="backBtn">Nazad na meni</button>
+  <button id="hintBtn" style="display:none;">Prikazi nagoveštaj</button>
+  <button id="nextBtn" disabled>Sledeće</button>
+  <button id="backBtn">Povratak na meni</button>
 </div>
 
 <div id="results">
-  <h2>Results</h2>
+  <h2>Rezultati</h2>
   <p id="score"></p>
-  <button id="menuBtn">Nazad na meni</button>
+  <button id="menuBtn">Povratak na meni</button>
 </div>
 
 <script>
+// Example question data (for illustration)
 let questionBank = {};
 let sectionScores = {}; // store latest percentage
 let currentSection = "";
@@ -90,7 +106,7 @@ function loadQuestions() {
   .catch(err => console.error("Failed to load questions.json:", err));
 }
 
-function updateHomeMenu(){
+function updateHomeMenu() {
   home.innerHTML = "<h2>Odaberi kategoriju</h2>";
   for (let section in questionBank) {
     const btn = document.createElement("button");
@@ -100,8 +116,7 @@ function updateHomeMenu(){
     btn.addEventListener("click", () => { currentSection = section; startSection(); });
     home.appendChild(btn);
 
-    // Show latest percentage
-    if(sectionScores[section] !== undefined){
+    if (sectionScores[section] !== undefined) {
       const scoreDiv = document.createElement("div");
       scoreDiv.className = "section-score";
       scoreDiv.innerText = `Last score: ${sectionScores[section]}%`;
@@ -110,7 +125,7 @@ function updateHomeMenu(){
   }
 }
 
-function startSection(){
+function startSection() {
   home.style.display = "none";
   results.style.display = "none";
   quizContainer.style.display = "block";
@@ -120,82 +135,25 @@ function startSection(){
   loadQuestion();
 }
 
-function loadQuestion(){
+function loadQuestion() {
   const q = questions[currentIndex];
-  quizDiv.innerHTML = `<div class="question"><p>${q.question}</p>` +
-    q.options.map((opt,i)=>`<div class="option" data-index="${i}">${opt}</div>`).join("") +
-    `</div>`;
+  
+  // Create the HTML for the question
+  quizDiv.innerHTML = `
+    <div class="question">
+      <p>${q.question}</p>
+      <div class="hand">
+        <strong>North:</strong> ${q.hand.north}<br>
+        <strong>South:</strong> ${q.hand.south}
+      </div>
+      <div class="options">
+        ${q.options.map((opt, i) => `<div class="option" data-index="${i}">${opt}</div>`).join("")}
+      </div>
+    </div>`;
+  
   explanationDiv.style.display = "none";
   explanationDiv.innerText = q.explanation || "";
   selectedOption = null;
   nextBtn.disabled = true;
 
-  if(q.hint){
-    hintBtn.style.display = "block";
-    hintBtn.onclick = () => alert(q.hint);
-  } else {
-    hintBtn.style.display = "none";
-  }
-
-  document.querySelectorAll(".option").forEach(opt=>{
-    opt.addEventListener("click",()=>{
-      document.querySelectorAll(".option").forEach(o=>o.classList.remove("selected"));
-      opt.classList.add("selected");
-      selectedOption = parseInt(opt.dataset.index);
-      showFeedback();
-      nextBtn.disabled = false;
-    });
-  });
-
-  updateProgress();
-}
-
-function showFeedback(){
-  const q = questions[currentIndex];
-  explanationDiv.style.display = "block";
-  explanationDiv.innerText = q.explanation || "";
-  if(selectedOption === q.correct){
-    explanationDiv.className = "feedback correct";
-    score++;
-  } else {
-    explanationDiv.className = "feedback incorrect";
-  }
-}
-
-nextBtn.addEventListener("click", ()=>{
-  currentIndex++;
-  if(currentIndex < questions.length) loadQuestion();
-  else showResults();
-});
-
-function showResults(){
-  quizContainer.style.display = "none";
-  results.style.display = "block";
-  const percent = Math.round((score/questions.length)*100);
-  sectionScores[currentSection] = percent;
-  scoreText.innerText = `You scored ${score} / ${questions.length} (${percent}%) in ${currentSection}`;
-}
-
-menuBtn.addEventListener("click", ()=>{
-  results.style.display = "none";
-  home.style.display = "block";
-  loadQuestions(); // reload with fresh scores
-});
-
-backBtn.addEventListener("click", ()=>{
-  quizContainer.style.display = "none";
-  results.style.display = "none";
-  home.style.display = "block";
-});
-
-function updateProgress(){
-  const percent = (currentIndex / questions.length) * 100;
-  progressBar.style.width = percent + "%";
-}
-
-// Initial load
-loadQuestions();
-</script>
-
-</body>
-</html>
+  if (q
