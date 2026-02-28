@@ -273,12 +273,13 @@
             resetQuiz();
         }
 
-        // Reset the quiz state
+        // Reset the quiz state and show only the main menu with scores
         function resetQuiz() {
             currentSection = 0;
             currentQuestionIndex = 0;
             score = 0;
             totalQuestions = 0;
+            document.getElementById('quiz-container').innerHTML = ''; // Clear any questions or answers
         }
 
         // Load questions from questions.json
