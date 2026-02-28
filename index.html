@@ -1,6 +1,56 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta charset="UTF-8">
+  <title>Bridge Helper</title>
+  <style>
+    body { font-family: Arial; max-width:700px; margin:40px auto; padding:20px; }
+    h1{text-align:center;}
+    .section-title{font-weight:bold;margin-top:20px;}
+    .question{margin-bottom:20px;}
+    button{margin-top:15px;padding:8px 16px; cursor:pointer;}
+    .feedback{margin-top:10px;padding:10px;background:#eee;border-left:4px solid #333;}
+    .hidden{display:none;}
+  </style>
+</head>
 <body>
-<h1>Bridge Helper App is alive ♠️</h1>
+
+<h1>🃏 Bridge Helper</h1>
+<div id="quiz"></div>
+<button id="nextBtn" class="hidden">Next</button>
+
+<script>
+// Questions (expandable)
+const questions = [
+  {section:"Basics", question:"How many high card points is an Ace worth?", options:["2","3","4","5"], correct:2, explanation:"Ace = 4 HCP."},
+  {section:"Bidding", question:"Partner opens 1NT (15–17). You hold ♠KQ74 ♥83 ♦A762 ♣KQ5. What do you bid?", options:["Pass","2♣ (Stayman)","2NT","3NT"], correct:1, explanation:"You have 8 HCP and a 4-card major. Use Stayman."}
+];
+
+let current=0, score=0;
+
+function loadQuestion(){
+  const q=questions[current];
+  const quiz=document.getElementById("quiz");
+  quiz.innerHTML=`<div class="question"><div class="section-title">${q.section}</div>
+  <p>${q.question}</p>
+  ${q.options.map((opt,i)=>`<div><input type="radio" name="answer" value="${i}" id="opt${i}"><label for="opt${i}">${opt}</label></div>`).join("")}
+  <div id="feedback" class="feedback hidden"></div></div>`;
+  document.getElementById("nextBtn").classList.add("hidden");
+}
+
+document.addEventListener("click",function(e){
+  if(e.target.name==="answer"){
+    const selected=parseInt(e.target.value), correct=questions[current].correct;
+    const feedback=document.getElementById("feedback");
+    if(selected===correct){score++; feedback.innerText="✅ Correct! "+questions[current].explanation; feedback.style.background="#d4edda"; feedback.style.borderLeft="4px solid #28a745";}
+    else{feedback.innerText="❌ Incorrect. "+questions[current].explanation; feedback.style.background="#f8d7da"; feedback.style.borderLeft="4px solid #dc3545";}
+    feedback.classList.remove("hidden"); document.getElementById("nextBtn").classList.remove("hidden");
+  }
+  if(e.target.id==="nextBtn"){current++; if(current<questions.length){loadQuestion();} else{document.getElementById("quiz").innerHTML=`<h2>Finished!</h2><p>Your score: ${score}/${questions.length}</p>`; e.target.classList.add("hidden");}}
+});
+
+loadQuestion();
+</script>
+
 </body>
 </html>
