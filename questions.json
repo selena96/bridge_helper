@@ -1,29 +1,50 @@
 {
   "easy": [
     {
-      "question": "Kako igrate ovu boju: KQJx Txx?",
-      "answers": ["Započnite sa K", "Započnite sa Q", "Započnite sa J", "Započnite sa T"],
+      "question": "Koja je boja na vrhu mosta?",
+      "answers": ["Plava", "Crvena", "Zelena", "Žuta"],
       "correctAnswer": 1,
-      "explanation": "Počnite sa K da biste eliminisali visokog protivnika.",
-      "hint": "Najbolje je da počnete sa K."
+      "explanation": "Boja na vrhu mosta je crvena.",
+      "hint": "Pogledajte boje na vrhu mosta."
+    },
+    {
+      "question": "Šta je najvažniji deo bridža?",
+      "answers": ["Skor", "Rukovanje", "Tramp", "Kugla"],
+      "correctAnswer": 2,
+      "explanation": "Tramp je ključna strategija u bridžu.",
+      "hint": "To je faza igre kada odlučujete o važnosti boje."
+    },
+    {
+      "question": "Kako se zove partner u igri bridž?",
+      "answers": ["Takmičar", "Partner", "Protivnik", "Kolega"],
+      "correctAnswer": 2,
+      "explanation": "Partner je igrač sa kojim sarađujete.",
+      "hint": "To je igrač sa druge strane stola."
     }
   ],
   "medium": [
     {
-      "question": "Kako biste igrali boju: AQ9x KJx?",
-      "answers": ["Igrajte A", "Igrajte Q", "Igrajte K", "Igrajte J"],
+      "question": "Koja boja je najjača u bridžu?",
+      "answers": ["Pik", "Tref", "Srce", "Karo"],
       "correctAnswer": 1,
-      "explanation": "Počnite sa A da biste imali kontrolu u boji.",
-      "hint": "Najbolje je početi sa A."
+      "explanation": "Pik je najjača boja u igri bridž.",
+      "hint": "Razmislite o klasifikaciji boja prema vrednosti."
+    },
+    {
+      "question": "Koja karta ima najvišu vrednost?",
+      "answers": ["Kralj", "Deset", "As", "Dama"],
+      "correctAnswer": 3,
+      "explanation": "As je najjača karta u bridžu.",
+      "hint": "Najveća vrednost dolazi od prve karte u boji."
     }
   ],
   "hard": [
     {
-      "question": "Kako igrate boju: KJxx Qxx?",
-      "answers": ["Započnite sa K", "Započnite sa J", "Započnite sa Q", "Započnite sa X"],
-      "correctAnswer": 1,
-      "explanation": "Započnite sa K da biste iskoristili moćnu kartu.",
-      "hint": "Počnite sa K."
+      "question": "Koje su osnovne strategije za igru na nivou majstora?",
+      "answers": ["Zatvoreni sklop", "Ofenzivni napad", "Zamena boje", "Balanse karte"],
+      "correctAnswer": 2,
+      "explanation": "Zamena boje je ključna za dobijanje poena.",
+      "hint": "Pokušajte da balansirate karte u poslednjim krugovima."
     }
   ]
 }
