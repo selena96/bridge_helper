@@ -124,8 +124,8 @@
     <h1>Bridž - test</h1>
     <div id="menu" class="button-container">
         <button class="category-btn" style="background-color: #8fce00;" onclick="startCategory('easy')">Brojanje poena</button>
-        <button class="category-btn" style="background-color: #ff9800;" onclick="startCategory('medium')">Srednja kategorija</button>
-        <button class="category-btn" style="background-color: #f44336;" onclick="startCategory('hard')">Teška kategorija</button>
+        <button class="category-btn" style="background-color: #ff9800;" onclick="startCategory('medium')">Brojanje štihova</button>
+        <button class="category-btn" style="background-color: #f44336;" onclick="startCategory('hard')">Brojanje štihova 2</button>
     </div>
 
     <div id="question-section" class="question-container">
@@ -173,34 +173,83 @@
         ],
         medium: [
             {
-                question: "Kako bi trebalo da igraš ovu boju: Axx Kxx?",
-                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa visokim kartama.",
-                explanation: "Počni sa A da bi proverio distribuciju.",
+                question: "Koliko štihova imamo ako držimo KQxx na AJx?",
+                answers: ["3", "4", "5", "7"],
+                correctAnswer: 1,
+                hint: "Maksimalno možemo uzeti 4 štiha jer u dužoj ruci imamo 4 karte. Za svaku kartu koja moramo dati protivnicima prvo, gubimo štih.",
+                explanation: "Imamo KQxx na AJx što je ekvivalentno za ovu priliku situaciji da imamo AKQJ na xxx gde imamo 4 štiha.",
             },
             {
-                question: "Kako bi trebalo da igraš ovu boju: Qx Kxx?",
-                answers: ["Odigraj Q", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 1,
-                hint: "Počni sa K ako imaš kontrolu.",
-                explanation: "Počni sa K kako bi bio siguran u distribuciju.",
+                question: "Koliko štihova imamo ako držimo KQJT na xxx?",
+                answers: ["1", "2", "3", "4"],
+                correctAnswer: 2,
+                hint: "Pošto nam fali as moramo izdati jedan štih.",
+                explanation: "Nakon što izdamo asa K, Q i J su naši. Primeti da je svejedno da li su K, Q i J naši ili Q, J i T itd.",
+            },
+            {
+                question: "Koliko sigurnih štihova imamo ako držimo Axxxx na KQxxx",
+                answers: ["3", "4", "5", "10"],
+                correctAnswer: 2,
+                hint: "Ako jedan protivnik ima sve preostale karte, koliko karata će mu ostati nakon što odigramo A, K i Q?",
+                explanation: "Sve protivnikove karte će uvek pasti pod A, K i Q jer protivnik može imati najviše 3 karte.",
+            },
+            {
+                question: "Koliko štihova imamo ako držimo QJT na 9xxx?",
+                answers: ["0", "1", "2", "3"],
+                correctAnswer: 2,
+                hint: "Ovo je slično prethodnoj situaciji sa KQJT na xxx.",
+                explanation: "Nakon što isteramo asa i kralja sa npr. damom i pubom, nama će ostati T i 9 za nošenje štihova.",
             },
         ],
         hard: [
             {
-                question: "Kako bi trebalo da igraš ovu boju: KQx T9x?",
-                answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
-                correctAnswer: 1,
-                hint: "Odigraj Q u sredini.",
-                explanation: "Q je najverovatnija karta koja će doneti dobitak.",
+                question: "Koliko štihova maksimalno možemo odneti ako držimo Axx na Qxx i oba protivnika imaju po 3 karte?",
+                answers: ["0", "1", "2", "3"],
+                correctAnswer: 2,
+                hint: "Razmisli o ekspasu.",
+                explanation: "As je sigurno naš. Posle toga kada odigramo malu kartu ka dami u 50% slučajeva će kralj biti na putu i odneti drugi štih. Nakon toga naša dama će odneti treći štih.",
             },
             {
-                question: "Kako bi trebalo da igraš ovu boju: Axx Txx?",
-                answers: ["Odigraj A", "Odigraj T", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa A kartom.",
-                explanation: "Počni sa A, kako bi proverio distribuciju.",
+                question: "Koliko štihova maksimalno možemo odneti ako držimo AJT na Qxx i oba protivnika imaju po 3 karte?",
+                answers: ["0", "1", "2", "3"],
+                correctAnswer: 3,
+                hint: "Razmisli o impasu.",
+                explanation: "Kada odigramo damu, ako protivnik stavi kralja mi ćemo odneti asa i posle toga ćemo imati J i T kao najveće karte. Ako protivnik ima kralja i ne stavi ga, kasnije možemo ponoviti igru malom kartom ka pubu. Opet, odnećemo 3 štiha u 50% slučajeva.",
+            },
+            {
+                question: "Koliko štihova maksimalno možemo odneti ako držimo Axx na Jxx i oba protivnika imaju po 3 karte?",
+                answers: ["0", "1", "2", "3"],
+                correctAnswer: 1,
+                hint: "Da li možemo napraviti impas?",
+                explanation: "Analizom svih slučajeva možemo doći do zaključka da J ne znači ništa jer nam fale K i Q.",
+            },
+            {
+                question: "Koliko štihova maksimalno možemo odneti ako držimo Axx na JT9 i oba protivnika imaju po 3 karte?",
+                answers: ["0", "1", "2", "3"],
+                correctAnswer: 2,
+                hint: "Razmisli o (duplom) impasu.",
+                explanation: "Ako oba protivnika imaju po jednu kartu od Q/K, onda kada odigramo puba i pustimo u krug, protivnik će odneti ali u drugom krugu kada držimo Ax na T9, druga od dve karte je u impasu. Slična je situacija ako protivnik između puba i asa ima obe od kralja i dame. Najgore je ako su obe karte iza keca u kom slučaju ćemo uzeti samo jedan štih.",
+            },
+            {
+                question: "Koliko štihova maksimalno možemo odneti ako držimo AQT na xxx i oba protivnika imaju po 3 karte?",
+                answers: ["0", "1", "2", "3"],
+                correctAnswer: 3,
+                hint: "Razmisli o (duplom) impasu.",
+                explanation: "Mali ka T pa mali ka Q nosi sva tri štiha ako su i K i J ispred.",
+            },
+            {
+                question: "Koliko štihova maksimalno možemo odneti ako držimo Axx na QT9 i oba protivnika imaju po 3 karte?",
+                answers: ["0", "1", "2", "3"],
+                correctAnswer: 2,
+                hint: "Razmisli o (duplom) impasu.",
+                explanation: "Nije lako videti da je ovo malo drugačije od prethodnog pitanja ali se mogu izanalizirati sve 4 moguće situacije. K i J kod E, K i J kod W, K kod E, J kod W i K kod W, J kod E.",
+            },
+            {
+                question: "Koliko štihova maksimalno možemo odneti ako držimo AJx na xxx i oba protivnika imaju po 3 karte?",
+                answers: ["0", "1", "2", "3"],
+                correctAnswer: 2,
+                hint: "Razmisli o (duplom) impasu.",
+                explanation: "Ako su i K i Q ispred onda će moći da nam uzmu maksimalno jedan štih.",
             },
         ],
     };
