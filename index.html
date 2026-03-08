@@ -123,7 +123,7 @@
 <div class="container">
     <h1>Bridž - test</h1>
     <div id="menu" class="button-container">
-        <button class="category-btn" style="background-color: #8fce00;" onclick="startCategory('poeni')">Brojanje poena</button>
+        <button class="category-btn" style="background-color: #8fce00;" onclick="startCategory('easy')">Laka kategorija</button>
         <button class="category-btn" style="background-color: #ff9800;" onclick="startCategory('medium')">Srednja kategorija</button>
         <button class="category-btn" style="background-color: #f44336;" onclick="startCategory('hard')">Teška kategorija</button>
     </div>
@@ -132,7 +132,7 @@
         <h2 id="question-title"></h2>
         <p id="question-text"></p>
         <div id="answers-container"></div>
-        <button id="hint-btn" class="hint-btn" onclick="showHint()">Prikaži hint</button>
+        <button id="hint-btn" class="hint-btn" onclick="showHint()">Prikazi hint</button>
         <div id="explanation" class="explanation" style="display: none;"></div>
         <div class="score" id="score"></div>
         <button id="next-btn" class="next-btn" onclick="nextQuestion()" disabled>Dalje</button>
@@ -141,34 +141,13 @@
 
 <script>
     const questions = {
-        poeni: [
+        easy: [
             {
-                question: "Koliko poena imaš ako držiš KQJx ATxx KQx Jx?"
+                question: "Kako igraš ovu boju: KQJx Txx?",
                 answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
                 correctAnswer: 0,
                 hint: "Kreći sa najvišim kartama.",
                 explanation: "Treba da igraš K kao početnu kartu.",
-            },
-            {
-                question: "Kako igraš ovu boju: Axx Kxx?",
-                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa najvišim kartama.",
-                explanation: "Počni sa A, da proveriš distribuciju.",
-            },
-            {
-                question: "Kako igraš ovu boju: Axx Kxx?",
-                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa najvišim kartama.",
-                explanation: "Počni sa A, da proveriš distribuciju.",
-            },
-            {
-                question: "Kako igraš ovu boju: Axx Kxx?",
-                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa najvišim kartama.",
-                explanation: "Počni sa A, da proveriš distribuciju.",
             },
             {
                 question: "Kako igraš ovu boju: Axx Kxx?",
