@@ -1,7 +1,7 @@
 {
   "easy": [
     {
-      "question": "Kako igraš ovu boju: KQJx Txx?",
+      "question": "Koliko poena ima ova ruka?",
       "answers": ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
       "correctAnswer": 0,
       "hint": "Kreći sa najvišim kartama.",
