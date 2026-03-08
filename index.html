@@ -123,7 +123,7 @@
 <div class="container">
     <h1>Bridž - test</h1>
     <div id="menu" class="button-container">
-        <button class="category-btn" style="background-color: #8fce00;" onclick="startCategory('easy')">Laka kategorija</button>
+        <button class="category-btn" style="background-color: #8fce00;" onclick="startCategory('easy')">Brojanje poena</button>
         <button class="category-btn" style="background-color: #ff9800;" onclick="startCategory('medium')">Srednja kategorija</button>
         <button class="category-btn" style="background-color: #f44336;" onclick="startCategory('hard')">Teška kategorija</button>
     </div>
@@ -150,18 +150,25 @@
                 explanation: "Prva boja je pik i u njemu imamo 3+2+1=6 poena. Druga boja je herc i tu imamo 4 poena. U karonu imamo nula poena i u trefu 2 poena.",
             },
             {
-                question: "Kako igraš ovu boju: KQJx Txx?OVDE1",
-                answers: ["Odigraj K", "Odigraj Q", "Odigraj J", "Odigraj T"],
+                question: "Koliko poena ima ova ruka? AK32 AT9432 K Q2",
+                answers: ["16", "12", "7", "20"],
                 correctAnswer: 0,
-                hint: "Kreći sa najvišim kartama.",
-                explanation: "Treba da igraš K kao početnu kartu.",
+                hint: "As vredi 4 poena, kralj 3, dama 2 i pub 1.",
+                explanation: "Prva boja je pik i u njemu imamo 4+3=7 poena. Druga boja je herc i tu imamo 4 poena. Treća boja je karo i tu imamo 3 poena. Četvrta boja je tref i tu imamo 2 poena.",
             },
             {
-                question: "Kako igraš ovu boju: Axx Kxx?",
-                answers: ["Odigraj A", "Odigraj K", "Odigraj x", "Odigraj xx"],
-                correctAnswer: 0,
-                hint: "Počni sa najvišim kartama.",
-                explanation: "Počni sa A, da proveriš distribuciju.",
+                question: "Koliko poena imamo zajedno sa partnerom ako mi držimo Qxx Qxxx Axxxx x, a partner drži KJxxx Kx / Axxxxx?",
+                answers: ["8", "19", "11", "22"],
+                correctAnswer: 1,
+                hint: "Saberi poene u obe ruke.",
+                explanation: "Mi imamo 8 poena, a partner ima 11 poena.",
+            },
+            {
+                question: "Koliko imamo poena u hercu ako držimo KQxx AQJxx / Kxxx?",
+                answers: ["15", "5", "3", "7"],
+                correctAnswer: 3,
+                hint: "Kada nekome dajemo ruku u bridžu podrazumevamo da su boje poređane po jačini odnosno prvo je pik onda herc, onda karo i onda tref.",
+                explanation: "AQJxx ima 4+2+1=7 poena.",
             },
         ],
         medium: [
